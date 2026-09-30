@@ -1,0 +1,6 @@
+# local preview server config
+.claude/
+# test results, screenshots and downloads (tests/e2e.py)
+tests/out/
+# Python cache, made when scripts import tests/e2e.py
+__pycache__/
