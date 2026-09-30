@@ -33,7 +33,7 @@ Skill files are powerful, but as plain text they can be hard to organize and eas
 
 Larger teams out there, with far deeper technical backgrounds, now build friendly agent characters too; a character can make an assistant feel like company, not just a tool. Helpercraft is my small, free take on a similar idea, meant to sit alongside those tools rather than replace them.
 
-Many agents today are impressively autonomous. How much autonomy should an AI have? For some people, as much as possible. I prefer to keep some control: you decide when to bring your agents in, the AI is told to ask before it puts any of them to work, and every agent is one you made or chose to add. That control matters to me, and I suspect to others too.
+Many agents system today are impressively autonomous. How much autonomy should an AI have? For some people, as much as possible. However, I prefer to keep some control: you decide when to bring your agents in, the AI is told to ask before it puts any of them to work, and every agent is one you made or chose to add. That control matters to me, and I think to some others too.
 
 <h2><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/h-home-dark.png"><img src="docs/readme/h-home-light.png" width="400" alt="One home for your team, and your AI asks first"></picture></h2>
 
