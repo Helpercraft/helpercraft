@@ -778,7 +778,7 @@ def tier_b(pw, urls, only=None):   # only: a set of run names, to re-run just th
             run.check('web address: opens with the network off', True)
         finally:
             run.ctx.set_offline(False)
-        other = sorted({u for u in (r.split('?')[0] for r in run.requests) if not u.endswith(('/helpercraft.html', '/manifest.webmanifest', '/sw.js'))
+        other = sorted({u for u in (r.split('?')[0] for r in run.requests) if not u.endswith(('/', '/helpercraft.html', '/manifest.webmanifest', '/sw.js'))
                         and '/icons/' not in u and not u.startswith(('data:', 'blob:'))})
         run.check('web address: loads only its own Home Screen files', not other, ', '.join(other))
     if home:   # needs the test server

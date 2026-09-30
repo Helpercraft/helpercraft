@@ -8,6 +8,13 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob: 'self'; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; form-action 'none'; base-uri 'none'">
 <meta name="theme-color" content="#bdb4f2">
 <meta name="apple-mobile-web-app-title" content="Helpercraft">
+<meta name="description" content="Craft your own AI agent as a real Agent Skill (SKILL.md). Keep your team in one folder: your AI picks who fits your task, and asks first. No code, no account.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://helpercraft.github.io/helpercraft/helpercraft.html">
+<meta property="og:title" content="Helpercraft: craft your own AI agent">
+<meta property="og:description" content="Keep your team in one folder. Your AI picks who fits your task, and asks first. No code, no account.">
+<meta property="og:image" content="https://helpercraft.github.io/helpercraft/docs/readme/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -1 34 36'%3E%3Cpath d='M15 1C7.5 1 2 12 2 20.5 2 28 7.8 33 15 33s13-5 13-12.5C28 12 22.5 1 15 1Z' fill='%23fff' stroke='%23231b40' stroke-width='2'/%3E%3Cpath d='M3 19l5-4 4 4 4-5 4 5 4-4 4 3' fill='none' stroke='%23231b40' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
 <title>Helpercraft</title>
 <style>
@@ -1578,10 +1585,10 @@ const Stage = (() => {
     });
   }
 
-  function draw() {
-    gl.viewport(0, 0, canvas.width, canvas.height);
+  function draw(w = canvas.width, h = canvas.height) {   // a smaller size draws into the bottom-left corner (portraits)
+    gl.viewport(0, 0, w, h);
     const q = canvas.width / cssW;
-    gl.uniform2f(U.uRes, canvas.width, canvas.height); gl.uniform1i(U.uZero, 0);
+    gl.uniform2f(U.uRes, w, h); gl.uniform1i(U.uZero, 0);
     if (override) { gl.uniform2f(U.uCenter, ...override.center); gl.uniform1f(U.uScale, override.scale); }
     else { gl.uniform2f(U.uCenter, center[0] * q, (cssH - center[1]) * q); gl.uniform1f(U.uScale, scaleCss * q); }
     gl.uniform3fv(U.uCamPos, cam.pos); gl.uniform3fv(U.uCamRight, cam.right); gl.uniform3fv(U.uCamUp, cam.up); gl.uniform3fv(U.uCamFwd, cam.fwd);
@@ -1665,25 +1672,34 @@ const Stage = (() => {
     headTop: () => [0, 2.12 + T.jump, 0], renderer, get quality() { return quality; },
     get still() { return paused; }, whenStill(fn) { onStill = fn; },
     simulateSlow(ms) { fakeMs = ms; },   // tests: pretend every frame takes this long
-    // Head-and-shoulders portrait for Agent home. `o` can swap in another agent's look, colours and mood.
-    // Drawn and copied in the same task, then the normal frame is redrawn, so it never flashes on screen.
+    // Head-and-shoulders portrait for Agent home and the Kind buttons. `o` can swap in another agent's look, colours and mood.
+    // Drawn small in a corner of the stage's own frame, and only that square is read back: copying the whole stage
+    // took 0.1-0.4 s a picture and paused the page. Then the normal frame is redrawn, in the same task, so the corner
+    // never shows. (Not a separate off-screen frame: some drivers may prepare the whole 3D program again for it.)
+    // The square is as sharp as the stage is drawn, so a slow computer draws small portraits too, and at most twice
+    // the picture size, for smooth edges.
     portrait(o = {}, size = 160) {
       if (!checkReady()) return null;
       const keep = { look: { ...look }, colors: { ...look.colors }, mood: { ...mood }, cur: { ...cur }, col: { ...curCol } };
+      const P = Math.max(16, Math.round(Math.min(size * 2, Math.min(canvas.width, canvas.height) * 0.95)));
       try {
         if (o.look) Object.assign(look, o.look);
         if (o.colors) Object.assign(look.colors, o.colors);
         if (o.mood) Object.assign(mood, o.mood);
         Object.assign(cur, mood);
         for (const k in look.colors) curCol[k] = hex(look.colors[k]);
-        const W = canvas.width, H = canvas.height, qv = sub([0, 1.45, 0], cam.pos), z = dot(qv, cam.fwd);
+        const qv = sub([0, 1.45, 0], cam.pos), z = dot(qv, cam.fwd);
         const pu = [dot(qv, cam.right) / z * FOCAL, dot(qv, cam.up) / z * FOCAL];
-        const side = Math.min(W, H) * 0.95, scale = side / (2 * 1.1 * FOCAL / z);   // hats up to y 2.55 fit
-        override = { center: [W / 2 - pu[0] * scale, H / 2 - pu[1] * scale], scale };
-        step(0); draw();
-        const c2 = document.createElement('canvas');
+        const scale = P / (2 * 1.1 * FOCAL / z);   // hats up to y 2.55 fit
+        override = { center: [P / 2 - pu[0] * scale, P / 2 - pu[1] * scale], scale };
+        step(0); draw(P, P);
+        const px = new Uint8Array(P * P * 4), img = new ImageData(P, P), row = P * 4;
+        gl.readPixels(0, 0, P, P, gl.RGBA, gl.UNSIGNED_BYTE, px);
+        for (let y = 0; y < P; y++) img.data.set(px.subarray((P - 1 - y) * row, (P - y) * row), y * row);   // GL rows run bottom-up
+        const big = document.createElement('canvas'), c2 = document.createElement('canvas');
+        big.width = big.height = P; big.getContext('2d').putImageData(img, 0, 0);
         c2.width = c2.height = size;
-        c2.getContext('2d').drawImage(canvas, (W - side) / 2, (H - side) / 2, side, side, 0, 0, size, size);
+        const g = c2.getContext('2d'); g.imageSmoothingQuality = 'high'; g.drawImage(big, 0, 0, size, size);
         return c2.toDataURL('image/jpeg', 0.86);
       } finally {
         override = null;
@@ -3124,9 +3140,9 @@ window.Stage = Stage;
 "已還原 {count} 個代理人。",
 "Se restauraron {count} agentes."
 ],
-"Setting up the studio…": [
-"正在布置工作室…",
-"Preparando el estudio…"
+"Your agent is waking up…": [
+"你的代理人快醒了…",
+"Tu agente se está despertando…"
 ],
 "🥚  Your browser can’t draw the 3D preview, but everything else works.": [
 "🥚  你的瀏覽器無法繪製 3D 預覽，但其他功能都能正常使用。",
@@ -6417,7 +6433,15 @@ function stageMood(st = state) {
     tilt: hu * 0.12 - 0.02, energy: e, mouthW: 0.08 + w * 0.025,
   };
 }
-const portraitOf = st => (S ? S.portrait({ ...stageLook(st), mood: stageMood(st) }) : null);
+const portraits = new Map();   // look -> picture, so revisiting the Name step or picking a kind doesn't redraw them
+function portraitOf(st) {
+  if (!S) return null;
+  const o = { ...stageLook(st), mood: stageMood(st) }, k = JSON.stringify(o);
+  if (portraits.has(k)) return portraits.get(k);
+  const url = S.portrait(o);
+  if (url) { portraits.set(k, url); if (portraits.size > 60) portraits.delete(portraits.keys().next().value); }
+  return url;
+}
 function applyLook(costumeChange) {
   if (!S) return;
   const { look, colors } = stageLook();
@@ -6594,18 +6618,22 @@ function stepName() {
     field(T('Outfit color'), T('the first one is their work uniform'), swatches(OUTFITS, () => L.outfit, v => look('outfit', v), T('Outfit color'))),
   ];
 }
-// Little 3D portraits on the "Kind" buttons, drawn one per frame once the studio is ready.
+// Little 3D portraits on the "Kind" buttons, once the studio is ready. In one go where that's quick: only the first
+// waits for the graphics chip to finish the frames it's still drawing (about 0.2 s), and the others take a moment
+// each. On a slow computer, after 0.25 s the rest follow one at a time, so the page keeps answering clicks.
 function paintKinds() {
+  if (!S || !S.ready) return;
   const pics = [...document.querySelectorAll('.kind-pic')];
-  if (!S || !S.ready || !pics.length) return;
-  let i = 0;
   const next = () => {
-    const el = pics[i], x = SPECIES.find(s => s.id === el?.dataset.kind);
-    if (!x || !document.contains(el)) return;
-    const L = x.id === state.look.species || x.id === 'human' ? state.look : { ...state.look, species: x.id, fur: x.fur, mark: x.mark, markColor: x.markColor, brows: x.brows };
-    const url = portraitOf({ ...state, look: { ...L, species: x.id } });
-    if (url) { el.style.backgroundImage = `url("${url}")`; el.classList.add('has-pic'); }
-    if (++i < pics.length) setTimeout(next, 16);   // one per tick keeps the page responsive
+    const t0 = performance.now();
+    while (pics.length) {
+      const el = pics.shift(), x = SPECIES.find(s => s.id === el.dataset.kind);
+      if (!x || !document.contains(el)) continue;
+      const L = x.id === state.look.species || x.id === 'human' ? state.look : { ...state.look, species: x.id, fur: x.fur, mark: x.mark, markColor: x.markColor, brows: x.brows };
+      const url = portraitOf({ ...state, look: { ...L, species: x.id } });
+      if (url) { el.style.backgroundImage = `url("${url}")`; el.classList.add('has-pic'); }
+      if (pics.length && performance.now() - t0 > 250) { setTimeout(next, 16); return; }
+    }
   };
   next();
 }
@@ -7633,7 +7661,7 @@ function applyStatic() {   // the page's fixed text
   for (const el of document.querySelectorAll('[data-t]')) el.replaceChildren(...T(el.dataset.t).split(/\*\*(.+?)\*\*/).map((p, i) => (i % 2 ? h('b', { text: p }) : p)));
   for (const el of document.querySelectorAll('[data-t-label]')) el.setAttribute('aria-label', T(el.dataset.tLabel));
   for (const el of document.querySelectorAll('[data-t-title]')) el.title = T(el.dataset.tTitle);
-  Object.assign($('#stageWrap').dataset, { wait: T('Setting up the studio…'), no3d: T('🥚  Your browser can’t draw the 3D preview, but everything else works.') });
+  Object.assign($('#stageWrap').dataset, { wait: T('Your agent is waking up…'), no3d: T('🥚  Your browser can’t draw the 3D preview, but everything else works.') });
   renderDockMore();
 }
 function renderLang() {
