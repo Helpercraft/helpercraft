@@ -335,19 +335,19 @@ def write_md(results, c, ver, model, date):
 
 Tested on {date} with Claude Code {ver} ({model}), in a clean setup with no personal settings, plugins or add-ons.
 The plan and scoring rules were written and committed before the full run: [tests/team_eval.md](../tests/team_eval.md). Three sentences in it were corrected after the run, and the plan quotes the originals.
-Our second, bigger test, which also scores the answers against the AI alone, is in [evaluation.md](evaluation.md).
+The second, bigger test, which also scores the answers against the AI alone, is in [evaluation.md](evaluation.md).
 
 @@WORDS@@
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="readme/eval-dark.png"><img src="readme/eval-light.png" width="600" alt="With the team folder against without it (the same helpers as installed skills). Picked the right helper: {a['right']} of {a['runs1']} against {p['right']} of {p['runs1']}. Asked before starting, by design: {a['asked']} of {a['runs1']} against {p['asked']} of {p['runs1']}. Still knew its helper after the conversation was squeezed: {a['kept']} of {a['runs2']} against {p['kept']} of {p['runs2']}. Helper's rules put back in view right after the squeeze: {a['came_back']} of {a['runs2']} against {p['came_back']} of {p['runs2']}. Back to the helper after one step: {a['back']} of {a['runs2']} against {p['back']} of {p['runs2']}."></picture>
 
-## What we found
+## What I found
 
 - **Both picked the right helper most of the time.** The team folder did in {a['right']} of {a['runs1']} runs and installed skills in {p['right']} of {p['runs1']}. At this size, that difference alone means little.
 - **For a bigger job, the team folder built a team.** For the two two-part tasks it proposed {a['multi']:.1f} helpers on average; installed skills used {p['multi']:.1f}. For the café website, installed skills used a helper in {p['tasks']['website'][0]} of {p['tasks']['website'][1]} runs, and the AI did the whole job itself.
 - **With the team folder, you decide first.** It asked before starting in {a['asked']} of {a['runs1']} runs. With installed skills, the first reply already did the task in {p['did_task']} of {p['runs1']}. The {p['asked']} times it asked, it was about the task, such as which machine model, not about which helper to use.
 - **It reads, it doesn't copy.** With the team folder, the AI read `START-HERE.md` in {a['start']} of {a['runs1']} runs, opened no helper's file before the OK ({a['first']} of {a['runs1']}), and afterwards read the chosen helper's file where it is ({a['in_place']} of {a['runs2']}).
-- **After the conversation was squeezed, both still knew their helper, but not in the same way.** Both passed the check: {a['kept']} of {a['runs2']} (team folder) and {p['kept']} of {p['runs2']} (installed skills). With the team folder, the AI had opened the helper's file, and Claude Code put that file back in view right after the squeeze ({a['came_back']} of {a['runs2']}); the AI answered without looking anything up ({a['from_memory']} of {a['runs2']}). An installed skill's rules came back in {p['came_back']} of {p['runs2']}, and the AI dug through its saved copy of the old conversation before answering ({p['looked_back']} of {p['runs2']}). Keeping that copy and putting opened files back are Claude Code features; other tools may not do either. (We found this in the logs while checking the results. It wasn't one of the pre-set scores.)
+- **After the conversation was squeezed, both still knew their helper, but not in the same way.** Both passed the check: {a['kept']} of {a['runs2']} (team folder) and {p['kept']} of {p['runs2']} (installed skills). With the team folder, the AI had opened the helper's file, and Claude Code put that file back in view right after the squeeze ({a['came_back']} of {a['runs2']}); the AI answered without looking anything up ({a['from_memory']} of {a['runs2']}). An installed skill's rules came back in {p['came_back']} of {p['runs2']}, and the AI dug through its saved copy of the old conversation before answering ({p['looked_back']} of {p['runs2']}). Keeping that copy and putting opened files back are Claude Code features; other tools may not do either. (I found this in the logs while checking the results. It wasn't one of the pre-set scores.)
 
 ## What was compared
 

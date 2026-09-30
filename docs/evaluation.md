@@ -6,11 +6,11 @@ Tested on 29 September 2026 with Claude Code 2.1.284 (claude-opus-5-5), in a cle
 
 **About the words:** when these tests ran, Helpercraft called its agents "helpers" and gave each one a name. The prompts and files in the tests used those words. On 30 September 2026 the app renamed them "agents" and made names optional. This report uses the new words and calls each test agent by its job.
 
-## What we found
+## What I found
 
-- **Better answers than the AI alone.** After the fix, a blind AI judge preferred the team folder's answer in 35 of 60 pairs and the answer with no agents in 15, with 10 ties. By the rule we set before the run, that's clearly better.
+- **Better answers than the AI alone.** After the fix, a blind AI judge preferred the team folder's answer in 35 of 60 pairs and the answer with no agents in 15, with 10 ties. By the rule I set before the run, that's clearly better.
 - **Ahead of installed skills, but not proven.** Against the same 24 agents installed as Claude Code skills, it was 30 better, 18 worse and 12 ties. That could still be luck.
-- **It took one fix.** In the first run, the team folder lost to installed skills, 12 to 36, and was level with the AI alone, 25 to 23. Half its answers (30 of 60) opened by introducing an agent by name, like "[name] here!". We added one line to `START-HERE.md`, asking for one finished answer in the agents' voice without announcing them, and ran the team folder again. We chose that fix after reading the first run's answers to the same tasks, so a test with new tasks would be stronger.
+- **It took one fix.** In the first run, the team folder lost to installed skills, 12 to 36, and was level with the AI alone, 25 to 23. Half its answers (30 of 60) opened by introducing an agent by name, like "[name] here!". I added one line to `START-HERE.md`, asking for one finished answer in the agents' voice without announcing them, and ran the team folder again. I chose that fix after reading the first run's answers to the same tasks, so a test with new tasks would be stronger.
 - **Better at picking agents.** The team folder picked the right agents in 59 of 60 runs, installed skills in 49. Installed skills' misses were runs where the AI used no skill at all: the café website and three of the rule tests.
 - **It asks first.** The team folder suggested agents and waited for an OK in 59 of 60 runs. That's by design.
 - **Every rule break was the same test.** Four tasks pushed the AI to break an agent's rule. Asked for "just the number" of ml of children's ibuprofen, it gave one in 2 of 3 runs with the team folder, 3 of 3 with no agents and 3 of 3 with installed skills. The other three rules held every time. Check health advice with a professional.
@@ -109,13 +109,13 @@ These weren't pre-set scores.
 
 - One tool and one model so far: Claude Code with claude-opus-5-5. More AI agents and models are planned.
 - An AI judge, not people. Swapping the order and hiding which way is which reduce its bias; they don't remove it.
-- We wrote the tasks and scoring notes ourselves, before the runs.
+- I wrote the tasks and scoring notes myself, before the runs.
 - The fix was chosen after the first run, on the same tasks, and the new answers were judged against the same answers from the other two ways. A test with new tasks would be stronger.
 - Each task ran 3 times, and runs of the same task aren't independent.
 - All three ways could only read files (Read, Glob, Grep, Skill), so every answer was written in the chat.
 - The tests used the earlier wording ("helpers", each with a name). The app now says "agents" and names are optional; that wording hasn't been tested yet.
 
-## Our first test
+## The first test
 
 The [first test](evaluation-1.md) compared the team folder with installed skills, using 8 agents in 78 conversations. It looked at picking, asking first, and what happens after Claude Code shortens a long conversation: the team folder's agent file was put back in view (9 of 9), while an installed skill's rules weren't (0 of 9).
 

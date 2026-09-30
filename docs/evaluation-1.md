@@ -2,19 +2,19 @@
 
 Tested on 29 September 2026 with Claude Code 2.1.284 (claude-opus-5-5), in a clean setup with no personal settings, plugins or add-ons.
 The plan and scoring rules were written and committed before the full run: [tests/team_eval.md](../tests/team_eval.md). Three sentences in it were corrected after the run, and the plan quotes the originals.
-Our second, bigger test, which also scores the answers against the AI alone, is in [evaluation.md](evaluation.md).
+The second, bigger test, which also scores the answers against the AI alone, is in [evaluation.md](evaluation.md).
 
 **About the words:** when this test ran, Helpercraft called its agents "helpers" and gave each one a name. The prompts, the files and the AI's replies quoted below use those words. On 30 September 2026 the app renamed them "agents" and made names optional. This report uses the new words, calls each test agent by its job, and shows names in quotes as [name].
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="readme/eval-dark.png"><img src="readme/eval-light.png" width="600" alt="With the team folder against without it (the same agents as installed skills). Picked the right agent: 29 of 30 against 27 of 30. Asked before starting, by design: 29 of 30 against 4 of 30. Still knew its agent after the conversation was squeezed: 9 of 9 against 9 of 9. Agent's rules put back in view right after the squeeze: 9 of 9 against 0 of 9. Back to the agent after one step: 9 of 9 against 9 of 9."></picture>
 
-## What we found
+## What I found
 
 - **Both picked the right agent most of the time.** The team folder did in 29 of 30 runs and installed skills in 27 of 30. At this size, that difference alone means little.
 - **For a bigger job, the team folder built a team.** For the two two-part tasks it proposed 2.8 agents on average; installed skills used 0.5. For the café website, installed skills used an agent in 0 of 3 runs, and the AI did the whole job itself.
 - **With the team folder, you decide first.** It asked before starting in 29 of 30 runs. With installed skills, the first reply already did the task in 25 of 30. The 4 times it asked, it was about the task, such as which machine model, not about which agent to use.
 - **It reads, it doesn't copy.** With the team folder, the AI read `START-HERE.md` in 30 of 30 runs, opened no agent's file before the OK (0 of 30), and afterwards read the chosen agent's file where it is (9 of 9).
-- **After the conversation was squeezed, both still knew their agent, but not in the same way.** Both passed the check: 9 of 9 (team folder) and 9 of 9 (installed skills). With the team folder, the AI had opened the agent's file, and Claude Code put that file back in view right after the squeeze (9 of 9); the AI answered without looking anything up (9 of 9). An installed skill's rules came back in 0 of 9, and the AI dug through its saved copy of the old conversation before answering (8 of 9). Keeping that copy and putting opened files back are Claude Code features; other tools may not do either. (We found this in the logs while checking the results. It wasn't one of the pre-set scores.)
+- **After the conversation was squeezed, both still knew their agent, but not in the same way.** Both passed the check: 9 of 9 (team folder) and 9 of 9 (installed skills). With the team folder, the AI had opened the agent's file, and Claude Code put that file back in view right after the squeeze (9 of 9); the AI answered without looking anything up (9 of 9). An installed skill's rules came back in 0 of 9, and the AI dug through its saved copy of the old conversation before answering (8 of 9). Keeping that copy and putting opened files back are Claude Code features; other tools may not do either. (I found this in the logs while checking the results. It wasn't one of the pre-set scores.)
 
 ## What was compared
 
