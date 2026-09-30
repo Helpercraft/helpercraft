@@ -218,7 +218,7 @@ What we'd like to do next. There are no dates yet, and ideas are welcome in [Dis
    - We'll set up a team folder in each one, step by step, note where they overlap or clash, and fill the gaps.
 
 3. **You decide what your agents remember**
-   - Many AI tools now keep their own memory, but for you or a project, not for each agent.
+   - Many AI tools now keep their own memory, but for you or a project, rarely for each agent.
    - So instead of a second memory system, each agent would get a small lessons note in the team folder. It goes wherever the agent goes, and nothing is added without your OK.
    - Before a task, you pick which agents join and, for each one: bring its lessons, use them but save nothing new, start fresh, or no memory.
    - First we'll test whether the notes help beyond the tools' own memory, and whether the tools follow your choice.
