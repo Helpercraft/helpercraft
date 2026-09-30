@@ -751,7 +751,7 @@ def tier_b(pw, urls, only=None):   # only: a set of run names, to re-run just th
         p.wait_for_function("() => /START-HERE.md is saved/.test(document.querySelector('#toast').textContent)")
         start, copied = p.evaluate(READ_START), p.evaluate('() => window.__copied.at(-1) || ""')
         rows = [line for line in start.split('\n') if line.startswith('| ') and line.endswith('/SKILL.md |')]
-        run.check('…writes START-HERE.md listing both, and copies the sentence for the AI', len(rows) == 2 and 'Wait for my OK' in start and '“my-skills”' in copied, f'{len(rows)} rows; {copied[:90]}')
+        run.check('…writes START-HERE.md listing both, and copies the sentence for the AI', len(rows) == 2 and 'Ask for my OK' in start and '“my-skills”' in copied, f'{len(rows)} rows; {copied[:90]}')
         skill = p.evaluate("async () => (await (await (await window.__teamDir.getDirectoryHandle('pdf-tools')).getFileHandle('SKILL.md')).getFile()).text()")
         run.check('…leaves the skills untouched, and a skill’s own text never runs as code', skill.startswith('---\nname: pdf-tools') and p.evaluate('() => window.__xss') is None and not run.errors,
                   f"{skill[:30]!r}; __xss={p.evaluate('() => window.__xss')}")

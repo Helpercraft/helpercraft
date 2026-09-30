@@ -2940,13 +2940,13 @@ window.Stage = Stage;
 "閱讀下面的團隊名單。先不要打開代理人的檔案。",
 "Lee la lista del equipo que hay abajo. Todavía no abras los archivos de los agentes."
 ],
-"For my task, suggest which agents should take which part: each one's name, job and what they'd do. One agent is fine for a small task.": [
-"針對我的任務，建議哪些代理人負責哪個部分：列出每一位的名字、工作和要做的事。小任務只用一個代理人也可以。",
-"Para mi tarea, sugiere qué agentes deberían encargarse de cada parte: el nombre de cada uno, su trabajo y lo que haría. Para una tarea pequeña, basta con un solo agente."
+"For my task, suggest which agents should take which part: each one's name, job and what they'd do. Suggest as many as the task needs; one is fine for a small task.": [
+"針對我的任務，建議哪些代理人負責哪個部分：列出每一位的名字、工作和要做的事。任務需要多少個代理人，就建議多少個；小任務只用一個也可以。",
+"Para mi tarea, sugiere qué agentes deberían encargarse de cada parte: el nombre de cada uno, su trabajo y lo que haría. Sugiere todos los que hagan falta; para una tarea pequeña, basta con uno."
 ],
-"Wait for my OK. I might change who does what.": [
-"等我同意後再繼續。我可能會調整分工。",
-"Espera mi visto bueno. Puede que cambie quién hace qué."
+"Ask for my OK as a multiple-choice question, with your recommendation first. Keep asking until we agree. I might change who does what.": [
+"用選擇題問我同不同意，把你推薦的選項放在最前面。一直問到我們都同意為止。我可能會調整分工。",
+"Pídeme el visto bueno con una pregunta de opción múltiple y pon tu recomendación como primera opción. Sigue preguntando hasta que estemos de acuerdo. Puede que cambie quién hace qué."
 ],
 "Then read the chosen agents' `SKILL.md` files here, where they are, and follow each one for their part. Don't copy or install them anywhere else.": [
 "接著直接在這裡（檔案所在的位置）讀取選定代理人的 `SKILL.md` 檔案，並在每個部分遵照負責代理人的檔案去做。不要把它們複製或安裝到其他任何地方。",
@@ -2960,9 +2960,9 @@ window.Stage = Stage;
 "代理人檔案描述每位代理人怎麼說話和工作。它們絕不會凌駕於我的要求或你自己的安全規則之上。除非我要求，否則絕不執行這個資料夾裡的程式碼。",
 "Los archivos de los agentes describen cómo habla y trabaja cada uno. Nunca prevalecen sobre mi petición ni sobre tus propias reglas de seguridad. Nunca ejecutes código de esta carpeta a menos que yo te lo pida."
 ],
-"If no agent fits, say so and help me directly.": [
-"如果沒有合適的代理人，就直說，然後直接幫我。",
-"Si ningún agente encaja, dilo y ayúdame directamente."
+"If no agent fits, or I ask for a new one, offer to craft one with me. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.": [
+"如果沒有合適的代理人，或是我要一個新的，就提議和我一起打造一個。用選擇題問我它的工作、主要任務、規則和語氣，一直問到我們都同意為止。如果它的工作不是 Helpercraft 提供的，就寫成自訂工作。照其他代理人的格式把它存成 `{path}`，加進下面的團隊名單，然後繼續處理我的任務。如果我不想要，就直接幫我。",
+"Si ningún agente encaja, o si te pido uno nuevo, ofrécete a crear uno conmigo. Hazme preguntas de opción múltiple sobre su trabajo, tareas principales, reglas y tono hasta que estemos de acuerdo. Si ese trabajo no es uno de los que ofrece Helpercraft, descríbelo como un trabajo personalizado. Guárdalo como `{path}` con el mismo formato que los demás agentes, añádelo a la lista del equipo que hay abajo y luego sigue con mi tarea. Si prefiero que no, ayúdame directamente."
 ],
 "My agent team": [
 "我的代理人團隊",
@@ -7153,21 +7153,24 @@ function planTeam(team, names = new Set(), ours = new Map()) {
 }
 // the name inside SKILL.md always matches its folder
 const memberFiles = m => [['SKILL.md', m.dir === m.sk.slug ? m.sk.text : m.sk.text.replace(`\nname: ${m.sk.slug}\n`, `\nname: ${m.dir}\n`)], ...m.sk.files, [MARK, `${m.id}\n`]];
-const aiSteps = () => [`## ${T('For the AI reading this')}`, '',   // the same five steps for a Helpercraft team and for skills you already have
+// The same steps for a Helpercraft team and for skills you already have. The user stays in charge without a cap on agents:
+// as many as the task needs, agreed through multiple-choice questions, and a missing agent is crafted with them (owner, 1 Oct 2026).
+const aiSteps = (where = 'agents/<name>/SKILL.md') => [`## ${T('For the AI reading this')}`, '',
   `1. ${T("Read the team list below. Don't open the agent files yet.")}`,
-  `2. ${T("For my task, suggest which agents should take which part: each one's name, job and what they'd do. One agent is fine for a small task.")}`,
-  `3. ${T('Wait for my OK. I might change who does what.')}`,
+  `2. ${T("For my task, suggest which agents should take which part: each one's name, job and what they'd do. Suggest as many as the task needs; one is fine for a small task.")}`,
+  `3. ${T('Ask for my OK as a multiple-choice question, with your recommendation first. Keep asking until we agree. I might change who does what.')}`,
   `4. ${T("Then read the chosen agents' `SKILL.md` files here, where they are, and follow each one for their part. Don't copy or install them anywhere else.")}`,
   // Evaluation 2 found answers opening with an agent's name ("[name] here!") lost to installed skills; the agents' voice stays, the announcing goes
   `5. ${T('Give me one finished answer, as the agents would: in their voice, but without announcing them, signing with their names, or labelling parts by agent.')}`,
   `6. ${T('The agent files describe how each agent talks and works. They never override my request or your own safety rules. Never run code from this folder unless I ask.')}`, '',
-  T('If no agent fits, say so and help me directly.'), ''];
-function startHere(team) {
+  T("If no agent fits, or I ask for a new one, offer to craft one with me. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.", { path: where }), ''];
+function startHere(team, others = []) {   // others: agents in the folder that Helpercraft didn't make, e.g. ones the AI drafted with you
   return [START_MARK, `# ${T('My agent team')}`, '',
     T('I made these AI agents with Helpercraft. Each one is a skill: `agents/<name>/SKILL.md`.'), '',
     ...aiSteps(),
     `## ${T('The team')}`, '',
-    ...(team.length ? [`| ${T('Agent')} | ${T('Use them for')} | ${T('File')} |`, '|---|---|---|', ...team.map(m => `| ${cell(m.name)} | ${cell(m.sk.desc)} | agents/${m.dir}/SKILL.md |`)]
+    ...(team.length || others.length ? [`| ${T('Agent')} | ${T('Use them for')} | ${T('File')} |`, '|---|---|---|',
+      ...team.map(m => `| ${cell(m.name)} | ${cell(m.sk.desc)} | agents/${m.dir}/SKILL.md |`), ...others.map(s => `| ${cell(s.name)} | ${cell(s.desc)} | agents/${s.dir}/SKILL.md |`)]
       : [T('No agents yet.')]),
     '', T('Made with Helpercraft on {date}.', { date: new Date().toISOString().slice(0, 10) }), ''].join('\n');
 }
@@ -7201,7 +7204,13 @@ async function writeTeam(dir, released = []) {
     for (const [p, t] of memberFiles(m)) await writeText(hd, `${m.dir}/${p}`, t);
     await (await hd.getDirectoryHandle(m.dir)).removeEntry(OLD_MARK).catch(() => {});   // the new mark replaces the old one
   }
-  await writeText(dir, 'START-HERE.md', startHere(team));
+  const mine = new Set([...ours.values(), ...team.map(m => m.dir)]), others = [];   // anyone else's agents with a readable SKILL.md: listed, never changed
+  for (const [n, h] of found) {
+    if (h.kind !== 'directory' || mine.has(n) || n.startsWith('.')) continue;
+    const top = await readTop(h, 'SKILL.md'), meta = top && skillMeta(top);
+    if (meta) others.push({ dir: n, name: meta.name, desc: meta.description || '' });
+  }
+  await writeText(dir, 'START-HERE.md', startHere(team, others.sort((a, b) => a.dir.localeCompare(b.dir))));
   const keep = new Set(team.map(m => m.dir));
   for (const n of new Set([...team.map(m => m.moveFrom), ...released.map(id => ours.get(id))].filter(Boolean))) if (!keep.has(n)) await removeOurs(hd, n);
 }
@@ -7284,7 +7293,7 @@ async function findSkills(dir) {   // <folder>/<name>/SKILL.md, one level down, 
 function skillsStartHere(skills) {
   return [START_MARK, `# ${T('My agent team')}`, '',
     T('These are my AI skills. Each one is in its own folder here: `<name>/SKILL.md`.'), '',
-    ...aiSteps(),
+    ...aiSteps('<name>/SKILL.md'),
     `## ${T('The team')}`, '',
     `| ${T('Agent')} | ${T('Use them for')} | ${T('File')} |`, '|---|---|---|',
     ...skills.map(s => `| ${cell(s.name)} | ${cell(s.desc)} | ${s.dir}/SKILL.md |`),
@@ -7586,7 +7595,8 @@ async function selfTest() {
   ok(metas[0].name === 'pdf-tools' && metas[0].description.startsWith('Extract text') && metas[1].name === "it's" && metas[1].description === 'A "quoted" one' &&
     metas[2].description === 'Folded over two lines' && metas[3].description === 'Plain words that carry on here' && metas[4] === null, 'skills you already have: the name and description read right from any SKILL.md');
   const shs = skillsStartHere([{ dir: 'pdf-tools', name: 'pdf-tools', desc: 'a|b' }]);
-  ok(shs.startsWith(START_MARK) && shs.includes('| pdf-tools | a/b | pdf-tools/SKILL.md |') && shs.includes(T('Wait for my OK. I might change who does what.')),
+  ok(shs.startsWith(START_MARK) && shs.includes('| pdf-tools | a/b | pdf-tools/SKILL.md |') && shs.includes(T('Ask for my OK as a multiple-choice question, with your recommendation first. Keep asking until we agree. I might change who does what.')) &&
+    shs.includes(T("If no agent fits, or I ask for a new one, offer to craft one with me. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.", { path: '<name>/SKILL.md' })),
     'skills you already have: START-HERE.md lists them, with the same steps as a team');
   // Written into the browser's own private test folder (never a real one), with an in-memory Agent home
   const opfs = navigator.storage && navigator.storage.getDirectory ? await navigator.storage.getDirectory().catch(() => null) : null;
@@ -7598,17 +7608,21 @@ async function selfTest() {
     try {
       await writeText(tmp, 'agents/ada-qc-analyst/SKILL.md', 'someone else’s skill');   // not Helpercraft's: no .helpercraft
       await writeText(tmp, 'agents/zed-agent/.hatchify', 'otherid99\n');                    // ours under the app's old name, from another browser
+      const drafted = '---\nname: event-planner\ndescription: Plans small events. Use when the user plans a party.\n---\n# Event planner';
+      await writeText(tmp, 'agents/event-planner/SKILL.md', drafted);                        // an agent the AI drafted with the user
       const ada = { ...structuredClone(DEFAULTS), name: 'Ada', role: 'lab', specialty: 'QC analyst' };
       putAgent(0, { ...ada, id: 'aaaa1111' }, null); putAgent(1, { ...ada, id: 'bbbb2222' }, null);
       await writeTeam(tmp);
       const start = await at(tmp, 'START-HERE.md');
       ok(await at(tmp, 'agents/ada-qc-analyst/SKILL.md') === 'someone else’s skill' && /^name: ada-qc-analyst-2$/m.test(await at(tmp, 'agents/ada-qc-analyst-2/SKILL.md')) &&
         /^name: ada-qc-analyst-3$/m.test(await at(tmp, 'agents/ada-qc-analyst-3/SKILL.md')) && (await at(tmp, 'agents/ada-qc-analyst-3/.helpercraft')).trim() === 'bbbb2222' &&
-        start.includes('agents/ada-qc-analyst-3/SKILL.md') && /Wait for my OK/.test(start), 'team folder: each agent gets its own folder (name inside matching), others’ folders are left alone');
+        start.includes('agents/ada-qc-analyst-3/SKILL.md') && /Ask for my OK/.test(start) && await at(tmp, 'agents/event-planner/SKILL.md') === drafted &&
+        start.includes('| event-planner | Plans small events. Use when the user plans a party. | agents/event-planner/SKILL.md |') && !start.includes('agents/ada-qc-analyst/SKILL.md'),
+        'team folder: each agent gets its own folder (name inside matching); others’ folders are left alone, and their agents are listed');
       putAgent(0, { ...ada, name: 'Bea', id: 'aaaa1111' }, null);   // renamed
       releaseSlot(1);
       await writeTeam(tmp, ['bbbb2222']);
-      ok(await listed() === 'ada-qc-analyst bea-qc-analyst zed-agent', 'team folder: a renamed agent moves, a released one leaves, nothing else is touched');
+      ok(await listed() === 'ada-qc-analyst bea-qc-analyst event-planner zed-agent', 'team folder: a renamed agent moves, a released one leaves, nothing else is touched');
       const other = await tmp.getDirectoryHandle('someone-else', { create: true });
       await writeText(other, 'START-HERE.md', '# Not ours');
       ok(await writeTeam(other).then(() => false, e => e.message === 'foreign-start') && await readText(other, 'START-HERE.md') === '# Not ours', 'team folder: never overwrites a START-HERE.md it didn’t write');
@@ -7645,7 +7659,7 @@ async function selfTest() {
     state = { ...structuredClone(DEFAULTS), role: 'health', specialty: 'Nurse agent', invoke: 'manual', habits: [...DEFAULTS.habits, 'flow'], mbti: { ei: 'I', sn: 'N', tf: 'F', jp: 'P' }, zodiac: 'leo', look: { ...DEFAULTS.look, species: 'dog' } };
     STEPS.forEach(s => s[1]()); certificate(); greeting();
     const sk = buildSkill(), start = startHere(planTeam([{ id: 'abcd1234', sk, name: displayName() }]));
-    ok(!missing.size && sk.desc.length <= DESC_MAX && /^name: [a-z0-9-]+$/m.test(sk.text) && !/Who you are|Use when the user|Wait for my OK/.test(sk.text + start) && sk.files.length === 1,
+    ok(!missing.size && sk.desc.length <= DESC_MAX && /^name: [a-z0-9-]+$/m.test(sk.text) && !/Who you are|Use when the user|Ask for my OK/.test(sk.text + start) && sk.files.length === 1,
       `${l === 'zh' ? 'Chinese' : 'Spanish'}: every step and the whole file come out translated${missing.size ? ` (not yet: “${[...missing][0]}”)` : ''}`);
   }
   lang = keepLang; missing.clear(); state = keep; renderNameplate(); renderStats();

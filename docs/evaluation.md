@@ -114,6 +114,7 @@ These weren't pre-set scores.
 - Each task ran 3 times, and runs of the same task aren't independent.
 - All three ways could only read files (Read, Glob, Grep, Skill), so every answer was written in the chat.
 - The tests used the earlier wording ("helpers", each with a name). The app now says "agents" and names are optional; that wording hasn't been tested yet.
+- `START-HERE.md` has also changed since: the AI now suggests as many agents as a task needs, confirms with multiple-choice questions, and offers to draft a new agent with you when none fits. These steps weren't part of the tests.
 
 ## The first test
 

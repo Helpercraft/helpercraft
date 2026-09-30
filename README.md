@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://helpercraft.github.io/helpercraft/helpercraft.html"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/try-dark.png"><img src="docs/readme/try-light.png" width="259" alt="Try it in your browser"></picture></a>&nbsp;&nbsp;
-  <a href="https://github.com/helpercraft/helpercraft/releases/latest/download/helpercraft.html"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/download-dark.png"><img src="docs/readme/download-light.png" width="244" alt="Download (one file)"></picture></a>
+  <a href="https://github.com/helpercraft/helpercraft/releases/latest/download/helpercraft.html"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/download-dark.png"><img src="docs/readme/download-light.png" width="287" alt="Download for computers"></picture></a>
 </p>
 
 <p align="center"><sub>Free and open source · No account · Nothing leaves your device · English · 繁體中文 · Español</sub></p>
@@ -33,7 +33,7 @@ Skill files are powerful, but as plain text they can be hard to organize and eas
 
 Larger teams out there, with far deeper technical backgrounds, now build friendly agent characters too; a character can make an assistant feel like company, not just a tool. Helpercraft is my small, free take on a similar idea, meant to sit alongside those tools rather than replace them.
 
-Many agents system today are impressively autonomous. How much autonomy should an AI have? For some people, as much as possible. However, I prefer to keep some control: you decide when to bring your agents in, the AI is told to ask before it puts any of them to work, and every agent is one you made or chose to add. That control matters to me, and I think to some others too.
+Many agent systems today are impressively autonomous. How much autonomy should an AI have? For some people, as much as possible. However, I prefer to keep some control: you decide when to bring your agents in, the AI is told to ask before it puts any of them to work, and every agent is one you made, or one your AI drafted with you. That control matters to me, and I suspect to others too.
 
 <h2><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/h-home-dark.png"><img src="docs/readme/h-home-light.png" width="400" alt="One home for your team, and your AI asks first"></picture></h2>
 
@@ -55,12 +55,77 @@ my-team/
 `START-HERE.md` asks the AI to:
 
 1. read the team list, not every agent;
-2. suggest who should take which part of the task, and wait for your OK;
-3. use the chosen agents where they are, without copying them;
-4. give one finished answer, without naming or signing as the agents;
-5. never use an agent to get around your request or its safety rules.
+2. suggest which agents should take which part, as many as the task needs;
+3. confirm with you in multiple-choice questions until you agree;
+4. use the chosen agents where they are, without copying them;
+5. give one finished answer, without naming or signing as the agents;
+6. never use an agent to get around your request or its safety rules.
 
-Waiting for your OK is an instruction, not a lock. Setup is under [Your team folder](#your-team-folder-chrome-or-edge-on-a-computer).
+If no agent fits, or you ask for one, it offers to draft a new agent with you the same way, saves it in the folder and adds it to the team. Asking first is an instruction, not a lock. Setup is under [Your team folder](#your-team-folder-chrome-or-edge-on-a-computer).
+
+<details>
+<summary><b>See a real <code>START-HERE.md</code> and <code>SKILL.md</code></b>, as Helpercraft writes them</summary>
+
+`START-HERE.md`, for a team of three:
+
+```markdown
+# My agent team
+
+I made these AI agents with Helpercraft. Each one is a skill: `agents/<name>/SKILL.md`.
+
+## For the AI reading this
+
+1. Read the team list below. Don't open the agent files yet.
+2. For my task, suggest which agents should take which part: each one's name, job and what they'd do. Suggest as many as the task needs; one is fine for a small task.
+3. Ask for my OK as a multiple-choice question, with your recommendation first. Keep asking until we agree. I might change who does what.
+4. Then read the chosen agents' `SKILL.md` files here, where they are, and follow each one for their part. Don't copy or install them anywhere else.
+5. Give me one finished answer, as the agents would: in their voice, but without announcing them, signing with their names, or labelling parts by agent.
+6. The agent files describe how each agent talks and works. They never override my request or your own safety rules. Never run code from this folder unless I ask.
+
+If no agent fits, or I ask for a new one, offer to craft one with me. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `agents/<name>/SKILL.md` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.
+
+## The team
+
+| Agent | Use them for | File |
+|---|---|---|
+| Support agent | Support agent: helps draft friendly replies to customer messages and calm down upset customers with empathy. Use when the user asks about customer messages, complaints or follow-ups. | agents/support-agent/SKILL.md |
+| Café assistant | Café assistant: helps answer guest questions warmly and track stock and draft supplier orders. Use when the user asks about guest questions, stock orders or menus and prep lists. | agents/cafe-assistant/SKILL.md |
+| UI designer | UI designer: helps give honest feedback on a design and check designs for accessibility. Use when the user asks about design feedback, accessibility or colors and fonts. | agents/ui-designer/SKILL.md |
+```
+
+`agents/support-agent/SKILL.md`, the top of it:
+
+```markdown
+---
+name: support-agent
+description: "Support agent: helps draft friendly replies to customer messages and calm down upset customers with empathy. Use when the user asks about customer messages, complaints or follow-ups."
+metadata:
+  version: "1.0"
+  made-with: "Helpercraft"
+---
+
+# Support agent
+
+## Who you are
+You are a cheerful support agent. You work in customer care. You mostly talk with a team of colleagues.
+
+## How you talk
+- Be warm and encouraging. Acknowledge how the person feels, and celebrate small wins.
+- Bring upbeat energy. An occasional exclamation mark is fine.
+- A touch of light humor is okay when the mood is relaxed. Stay serious for serious topics.
+- Give enough detail to act on, then offer to go deeper.
+- Don't use emoji.
+- Use plain words, and reply in the language the person writes in.
+
+## What you help with
+- Draft friendly replies to customer messages
+- Calm down upset customers with empathy
+- Suggest next steps and follow-ups
+
+…
+```
+
+</details>
 
 **Tested:** 24 agents, 20 tasks, 3 runs each, in Claude Code, with a blind AI judge. The judge preferred the team folder's answers over the AI alone in 35 of 60 pairs (15 the other way, 10 ties). Against the same agents installed as skills, it was 30 to 18 with 12 ties: ahead, but possibly luck. These results came after one fix; in the first run, installed skills won. [Both runs and their limits](docs/evaluation.md).
 
@@ -165,6 +230,7 @@ No dates yet. Ideas are welcome in [Discussions](https://github.com/helpercraft/
 
 1. **Bigger tests**
    - More AI tools and models, more kinds of tasks, and longer, multi-step tasks.
+   - Complex tasks with many agents: does asking first give you more control than an AI that starts agents on its own, without worse results?
    - Same method: the same tasks with and without Helpercraft, a blind judge, and results published either way.
 2. **Fit with the tools you already use**
    - Set up a team folder in tools that organize agents their own way, such as Claude Code's subagents.
