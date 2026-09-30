@@ -1,9 +1,9 @@
 <p align="center">
-  <a href="https://helpercraft.github.io/helpercraft/"><img src="docs/readme/banner.png" width="100%" alt="Helpercraft. Craft your own AI agent. Keep your team in one folder. Your AI picks who fits your task, and asks first. Six agents made in the app: a nurse, a Pomeranian, a cat designer, a capybara site agent, a duck chef and a tech agent."></a>
+  <a href="https://helpercraft.github.io/helpercraft/helpercraft.html"><img src="docs/readme/banner.png" width="100%" alt="Helpercraft. Craft your own AI agent. Keep your team in one folder. Your AI picks who fits your task, and asks first. Six agents made in the app: a nurse, a Pomeranian, a cat designer, a capybara site agent, a duck chef and a tech agent."></a>
 </p>
 
 <p align="center">
-  <a href="https://helpercraft.github.io/helpercraft/"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/try-dark.png"><img src="docs/readme/try-light.png" width="259" alt="Try it in your browser"></picture></a>&nbsp;&nbsp;
+  <a href="https://helpercraft.github.io/helpercraft/helpercraft.html"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/try-dark.png"><img src="docs/readme/try-light.png" width="259" alt="Try it in your browser"></picture></a>&nbsp;&nbsp;
   <a href="https://github.com/helpercraft/helpercraft/releases/latest/download/helpercraft.html"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/download-dark.png"><img src="docs/readme/download-light.png" width="244" alt="Download (one file)"></picture></a>
 </p>
 
@@ -23,7 +23,7 @@
 **Private by design:** nothing you type leaves your device, and there's no account. Healthcare agents are told not to diagnose or prescribe, but AI doesn't always listen, so check health advice with a professional.
 
 <p align="center">
-  <a href="https://helpercraft.github.io/helpercraft/"><img src="docs/readme/demo.gif" width="100%" alt="A 30-second demo recorded in the real app: an agent made as a person, then a cat, then a duck; given a job and a job title while the skill file changes; given a personality with an optional MBTI type; crafted; Agent home with the whole team; the team handed to an AI with Copy for my AI; and the same app on a phone."></a>
+  <a href="https://helpercraft.github.io/helpercraft/helpercraft.html"><img src="docs/readme/demo.gif" width="100%" alt="A 30-second demo recorded in the real app: an agent made as a person, then a cat, then a duck; given a job and a job title while the skill file changes; given a personality with an optional MBTI type; crafted; Agent home with the whole team; the team handed to an AI with Copy for my AI; and the same app on a phone."></a>
 </p>
 <p align="center"><sub>Making an agent in the app, in 30 seconds.</sub></p>
 
@@ -91,14 +91,14 @@ Pick how your agent talks and works: sunny, a calm mentor, a straight shooter, a
 - **Job:** 13 fields, A to Z (Business, Customer care, Design, Education, Food & hospitality, Healthcare, Laboratory, Legal, Planning, Software & IT, Trades, Writing, or your own). Each comes with ready-made tasks, safety rules and "hand over to a person when…" triggers, and each job title starts with its own tasks ticked. Nothing is picked until you choose.
 - **Personality:** six starting types, emoji and a catchphrase. **Fine details** (optional, nothing picked until you choose) add an MBTI-style type and a star sign.
 - **Habits and rules:** how they work, what their answers look like (flowcharts for workflows, for example), and what they must never do.
-- **Craft:** one file that works everywhere, with no app to pick. **Copy** your agent and paste them into any AI chat (Claude, ChatGPT, Gemini, Copilot…), on a phone or a computer. You can also download the `.md` file, named after your agent (like `Clover_Nurse-helper_Skill.md`), or a zip to keep them in the Claude app. Coding tools and builder extras are one tap further down.
+- **Craft:** one file that works everywhere, with no app to pick. **Copy** your agent and paste them into any AI chat (Claude, ChatGPT, Gemini, Copilot…), on a phone or a computer. You can also download the `.md` file, named after your agent (like `Nurse-agent_Skill.md`), or a zip to keep them in the Claude app. Coding tools and builder extras are one tap further down.
 - **Team folder:** on a computer, keep your whole team in one folder that any AI tool can read. The AI suggests which agents fit your task and waits for your OK.
 - **Skills you already have:** point Helpercraft at a folder of skills made anywhere, and it writes the same `START-HERE.md` for them. Your skills aren't changed.
 - **Three languages:** English, Traditional Chinese and Spanish. The little C · E · S switch under "Private" changes everything at once, including your agent's file, so the AI gets its instructions in your language. Helpercraft starts in your browser's language and remembers your choice. The skill's folder name stays in English letters in every language, so switching never renames it.
 
 ## Quick start
 
-**On a phone or tablet:** open [helpercraft.github.io/helpercraft](https://helpercraft.github.io/helpercraft/), and add it to your Home Screen to keep your agents safe. Phones don't run a downloaded `.html` file properly. iPhones, for example, show it in a preview. The hosted page is the same single file: once it has loaded, it still can't send anything anywhere.
+**On a phone or tablet:** open [helpercraft.github.io/helpercraft](https://helpercraft.github.io/helpercraft/helpercraft.html), and add it to your Home Screen to keep your agents safe. Phones don't run a downloaded `.html` file properly. iPhones, for example, show it in a preview. The hosted page is the same single file: once it has loaded, it still can't send anything anywhere.
 
 **On a computer:**
 
@@ -201,6 +201,30 @@ No. A role gives tone, good habits and guardrails. It doesn't give professional 
 
 **Can I share my agent?**
 Yes. Choose "Who can copy them?" in the Craft step, then share the file or the zip. Only install skills from people you trust, because a skill is instructions your AI will follow.
+
+## Roadmap
+
+What we'd like to do next. There are no dates yet, and ideas are welcome in [Discussions](https://github.com/helpercraft/helpercraft/discussions).
+
+1. **Bigger tests**
+   - More AI tools and models.
+   - More kinds of tasks.
+   - Longer, multi-step tasks, where a team folder should matter most.
+
+   Each test runs the same tasks with and without Helpercraft, judged blind, and we publish the results either way.
+
+2. **Fit with the tools you already use**
+   - Some AI tools already organize agents their own way, like Claude Code's subagents.
+   - We'll set up a team folder in each one, step by step, note where they overlap or clash, and fill the gaps.
+
+3. **You decide what your agents remember**
+   - Many AI tools now keep their own memory, but for you or a project, not for each agent.
+   - So instead of a second memory system, each agent would get a small lessons note in the team folder. It goes wherever the agent goes, and nothing is added without your OK.
+   - Before a task, you pick which agents join and, for each one: bring its lessons, use them but save nothing new, start fresh, or no memory.
+   - First we'll test whether the notes help beyond the tools' own memory, and whether the tools follow your choice.
+
+4. **More ways to style your agent**
+   - More outfits, hairstyles, accessories and pets.
 
 ## For builders
 
