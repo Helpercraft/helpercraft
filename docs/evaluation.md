@@ -2,13 +2,13 @@
 
 Tested on 29 September 2026 with Claude Code 2.1.284 (claude-opus-5-5), in a clean setup with no personal settings, plugins or add-ons. Each run's plan and scoring rules were committed before it started: [the first run](../tests/team_eval_2.md) and [the re-test after one fix](../tests/team_eval_2b.md). Every result is here, including the run where the team folder lost.
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="readme/eval2-dark.png"><img src="readme/eval2-light.png" width="600" alt="With and without a Helpercraft team folder, test of 29 September 2026. Out of 60 pairs of answers judged blind. Against the AI alone, with no agents: first run, team folder better 25, tie 12, other better 23; after the fix, 35, 10, 15, clearly better. Against the same agents installed as skills: first run 12, 12, 36; after the fix, 30, 12, 18, ahead but could be luck. After the fix the team folder picked the right agents in 59 of 60 runs (installed skills: 49)."></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="readme/eval2-dark.png"><img src="readme/eval2-light.png" width="600" alt="With and without a Helpercraft team folder, test of 29 September 2026. Out of 60 pairs of answers judged blind. Against the AI alone, with no agents: first run, team folder preferred 25, tie 12, other preferred 23; after the fix, 35, 10, 15, preferred beyond chance. Against the same agents installed as skills: first run 12, 12, 36; after the fix, 30, 12, 18, ahead but could be luck. After the fix the team folder picked the right agents in 59 of 60 runs (installed skills: 49)."></picture>
 
 **About the words:** when these tests ran, Helpercraft called its agents "helpers" and gave each one a name. The prompts and files in the tests used those words. On 30 September 2026 the app renamed them "agents" and made names optional. This report uses the new words and calls each test agent by its job.
 
 ## What I found
 
-- **Better answers than the AI alone.** After the fix, a blind AI judge preferred the team folder's answer in 35 of 60 pairs and the answer with no agents in 15, with 10 ties. By the rule I set before the run, that's clearly better.
+- **Preferred over the AI alone.** After the fix, a blind AI judge preferred the team folder's answer in 35 of 60 pairs and the answer with no agents in 15, with 10 ties. By the rule I set before the run, that's beyond chance. Two caveats: counted task by task (13 ahead, 5 behind), it could still be luck, and the team folder's answers were about a third longer, which AI judges tend to favour.
 - **Ahead of installed skills, but not proven.** Against the same 24 agents installed as Claude Code skills, it was 30 better, 18 worse and 12 ties. That could still be luck.
 - **It took one fix.** In the first run, the team folder lost to installed skills, 12 to 36, and was level with the AI alone, 25 to 23. Half its answers (30 of 60) opened by introducing an agent by name, like "[name] here!". I added one line to `START-HERE.md`, asking for one finished answer in the agents' voice without announcing them, and ran the team folder again. I chose that fix after reading the first run's answers to the same tasks, so a test with new tasks would be stronger.
 - **Better at picking agents.** The team folder picked the right agents in 59 of 60 runs, installed skills in 49. Installed skills' misses were runs where the AI used no skill at all: the café website and three of the rule tests.
@@ -34,13 +34,13 @@ The 20 tasks: 8 everyday tasks with one clear agent, 4 look-alike tasks, 4 bigge
 - Another AI, Claude Sonnet (a different model from the one tested), compared two final answers to the same task: the team folder's against the AI alone, and the team folder's against installed skills', run by run.
 - It saw only the task, scoring notes written before the run, and the two answers. It never saw which way made them, or any agent's file.
 - Each pair was judged twice, with the order swapped. An answer wins only if it wins both times; anything else is a tie.
-- "Clearly better" means more wins than losses, by more than chance would explain: a sign test with ties left out, p below 0.05. That rule was set before the re-test.
+- "Preferred beyond chance" means more wins than losses, by more than chance would explain: a sign test with ties left out, p below 0.05, counting each of the 60 pairs. That rule was set before the re-test. It isn't an industry standard. The next test follows common practice: fresh tasks, the same steps for every setup, a length correction, a second judge and a human check.
 
 ## Results
 
 | | First run | After the fix |
 |---|---|---|
-| **Team folder vs the AI alone** (better / worse / tie) | 25 / 23 / 12 | **35 / 15 / 10**: clearly better |
+| **Team folder vs the AI alone** (better / worse / tie) | 25 / 23 / 12 | **35 / 15 / 10**: preferred beyond chance |
 | **Team folder vs installed skills** (better / worse / tie) | 12 / 36 / 12 | **30 / 18 / 12**: ahead, could be luck |
 | Picked the right agents: team folder (installed skills: 49 of 60) | 56 of 60 | 59 of 60 |
 | Asked before starting: team folder (by design) | 56 of 60 | 59 of 60 |
@@ -114,7 +114,7 @@ These weren't pre-set scores.
 - Each task ran 3 times, and runs of the same task aren't independent.
 - All three ways could only read files (Read, Glob, Grep, Skill), so every answer was written in the chat.
 - The tests used the earlier wording ("helpers", each with a name). The app now says "agents" and names are optional; that wording hasn't been tested yet.
-- `START-HERE.md` has also changed since: the AI now suggests as many agents as a task needs, confirms with multiple-choice questions, and offers to draft a new agent with you when none fits. These steps weren't part of the tests.
+- `START-HERE.md` has also changed since: the AI now suggests as many agents as a task needs, confirms with multiple-choice questions, and recommends drafting a new agent with you when none fits. These steps weren't part of the tests.
 
 ## The first test
 

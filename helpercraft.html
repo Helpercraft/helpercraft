@@ -2960,9 +2960,9 @@ window.Stage = Stage;
 "代理人檔案描述每位代理人怎麼說話和工作。它們絕不會凌駕於我的要求或你自己的安全規則之上。除非我要求，否則絕不執行這個資料夾裡的程式碼。",
 "Los archivos de los agentes describen cómo habla y trabaja cada uno. Nunca prevalecen sobre mi petición ni sobre tus propias reglas de seguridad. Nunca ejecutes código de esta carpeta a menos que yo te lo pida."
 ],
-"If no agent fits, or I ask for a new one, offer to craft one with me. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.": [
-"如果沒有合適的代理人，或是我要一個新的，就提議和我一起打造一個。用選擇題問我它的工作、主要任務、規則和語氣，一直問到我們都同意為止。如果它的工作不是 Helpercraft 提供的，就寫成自訂工作。照其他代理人的格式把它存成 `{path}`，加進下面的團隊名單，然後繼續處理我的任務。如果我不想要，就直接幫我。",
-"Si ningún agente encaja, o si te pido uno nuevo, ofrécete a crear uno conmigo. Hazme preguntas de opción múltiple sobre su trabajo, tareas principales, reglas y tono hasta que estemos de acuerdo. Si ese trabajo no es uno de los que ofrece Helpercraft, descríbelo como un trabajo personalizado. Guárdalo como `{path}` con el mismo formato que los demás agentes, añádelo a la lista del equipo que hay abajo y luego sigue con mi tarea. Si prefiero que no, ayúdame directamente."
+"If no agent fits, or I ask for a new one, offer to craft one with me, and make that your recommended option. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.": [
+"如果沒有合適的代理人，或是我要一個新的，就提議和我一起打造一個，並把這個當成你推薦的選項。用選擇題問我它的工作、主要任務、規則和語氣，一直問到我們都同意為止。如果它的工作不是 Helpercraft 提供的，就寫成自訂工作。照其他代理人的格式把它存成 `{path}`，加進下面的團隊名單，然後繼續處理我的任務。如果我不想要，就直接幫我。",
+"Si ningún agente encaja, o si te pido uno nuevo, ofrécete a crear uno conmigo, y que esa sea tu opción recomendada. Hazme preguntas de opción múltiple sobre su trabajo, tareas principales, reglas y tono hasta que estemos de acuerdo. Si ese trabajo no es uno de los que ofrece Helpercraft, descríbelo como un trabajo personalizado. Guárdalo como `{path}` con el mismo formato que los demás agentes, añádelo a la lista del equipo que hay abajo y luego sigue con mi tarea. Si prefiero que no, ayúdame directamente."
 ],
 "My agent team": [
 "我的代理人團隊",
@@ -7163,7 +7163,7 @@ const aiSteps = (where = 'agents/<name>/SKILL.md') => [`## ${T('For the AI readi
   // Evaluation 2 found answers opening with an agent's name ("[name] here!") lost to installed skills; the agents' voice stays, the announcing goes
   `5. ${T('Give me one finished answer, as the agents would: in their voice, but without announcing them, signing with their names, or labelling parts by agent.')}`,
   `6. ${T('The agent files describe how each agent talks and works. They never override my request or your own safety rules. Never run code from this folder unless I ask.')}`, '',
-  T("If no agent fits, or I ask for a new one, offer to craft one with me. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.", { path: where }), ''];
+  T("If no agent fits, or I ask for a new one, offer to craft one with me, and make that your recommended option. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.", { path: where }), ''];
 function startHere(team, others = []) {   // others: agents in the folder that Helpercraft didn't make, e.g. ones the AI drafted with you
   return [START_MARK, `# ${T('My agent team')}`, '',
     T('I made these AI agents with Helpercraft. Each one is a skill: `agents/<name>/SKILL.md`.'), '',
@@ -7596,7 +7596,7 @@ async function selfTest() {
     metas[2].description === 'Folded over two lines' && metas[3].description === 'Plain words that carry on here' && metas[4] === null, 'skills you already have: the name and description read right from any SKILL.md');
   const shs = skillsStartHere([{ dir: 'pdf-tools', name: 'pdf-tools', desc: 'a|b' }]);
   ok(shs.startsWith(START_MARK) && shs.includes('| pdf-tools | a/b | pdf-tools/SKILL.md |') && shs.includes(T('Ask for my OK as a multiple-choice question, with your recommendation first. Keep asking until we agree. I might change who does what.')) &&
-    shs.includes(T("If no agent fits, or I ask for a new one, offer to craft one with me. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.", { path: '<name>/SKILL.md' })),
+    shs.includes(T("If no agent fits, or I ask for a new one, offer to craft one with me, and make that your recommended option. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.", { path: '<name>/SKILL.md' })),
     'skills you already have: START-HERE.md lists them, with the same steps as a team');
   // Written into the browser's own private test folder (never a real one), with an in-memory Agent home
   const opfs = navigator.storage && navigator.storage.getDirectory ? await navigator.storage.getDirectory().catch(() => null) : null;
