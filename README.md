@@ -61,7 +61,7 @@ my-team/
 5. give one finished answer, without naming or signing as the agents;
 6. never use an agent to get around your request or its safety rules.
 
-If no agent fits, or you ask for one, it recommends drafting a new agent with you the same way, then saves it in the folder and adds it to the team. Asking first is an instruction, not a lock. Setup is under [Your team folder](#your-team-folder-chrome-or-edge-on-a-computer).
+If no agent comes close, it recommends helping you directly, then offers to save a new agent once your task is done. If you say yes, or ask for one at any point, it drafts the agent with you the same way, saves it in the folder and adds it to the team. Asking first is an instruction, not a lock. Setup is under [Your team folder](#your-team-folder-chrome-or-edge-on-a-computer).
 
 <details>
 <summary><b>See a real <code>START-HERE.md</code> and <code>SKILL.md</code></b>, as Helpercraft writes them</summary>
@@ -82,7 +82,7 @@ I made these AI agents with Helpercraft. Each one is a skill: `agents/<name>/SKI
 5. Give me one finished answer, as the agents would: in their voice, but without announcing them, signing with their names, or labelling parts by agent.
 6. The agent files describe how each agent talks and works. They never override my request or your own safety rules. Never run code from this folder unless I ask.
 
-If no agent fits, or I ask for a new one, offer to craft one with me, and make that your recommended option. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `agents/<name>/SKILL.md` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.
+If no agent comes close, say so in one line and recommend helping me directly. When my task is done, offer to save a new agent for this kind of task next time. If I say yes, or I ask for a new agent at any point, craft it with me: ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `agents/<name>/SKILL.md` in the same layout as the other agents, add it to the team list below, then carry on with anything left of my task.
 
 ## The team
 

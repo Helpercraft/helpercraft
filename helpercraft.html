@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://helpercraft.github.io/helpercraft/docs/readme/social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -1 34 36'%3E%3Cpath d='M15 1C7.5 1 2 12 2 20.5 2 28 7.8 33 15 33s13-5 13-12.5C28 12 22.5 1 15 1Z' fill='%23fff' stroke='%23231b40' stroke-width='2'/%3E%3Cpath d='M3 19l5-4 4 4 4-5 4 5 4-4 4 3' fill='none' stroke='%23231b40' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
-<title>Helpercraft</title>
+<title>Helpercraft: craft your own AI agent</title>
 <style>
 :root {
   --ink: #231b40;
@@ -2040,6 +2040,10 @@ window.Stage = Stage;
 "拖曳舞台可以旋轉。點一下打個招呼。",
 "Arrastra el escenario para girar. Haz clic para saludar."
 ],
+"craft your own AI agent": [
+"打造你專屬的 AI 代理人",
+"crea tu propio agente de IA"
+],
 "{name} {i} (uniform)": [
 "{name} {i}（制服）",
 "{name} {i} (uniforme)"
@@ -2632,9 +2636,9 @@ window.Stage = Stage;
 "{n}的資料夾要放在哪裡？",
 "¿Dónde pongo la carpeta de {n}?"
 ],
-"In Claude Code: ~/.claude/skills/. In Codex, Copilot, Cursor, Gemini CLI and most other tools: ~/.agents/skills/ (~ means your home folder). Keep the folder’s name the same as the name inside the file.": [
-"Claude Code：~/.claude/skills/。Codex、Copilot、Cursor、Gemini CLI 和大多數其他工具：~/.agents/skills/（~ 代表你的使用者資料夾）。資料夾名稱要和檔案裡的名稱一樣。",
-"En Claude Code: ~/.claude/skills/. En Codex, Copilot, Cursor, Gemini CLI y la mayoría de las demás herramientas: ~/.agents/skills/ (~ es tu carpeta personal). La carpeta debe llamarse igual que el nombre que hay dentro del archivo."
+"In Claude Code: ~/.claude/skills/. In Codex, Copilot, Cursor and most other tools: ~/.agents/skills/ (~ means your home folder). Keep the folder’s name the same as the name inside the file.": [
+"Claude Code：~/.claude/skills/。Codex、Copilot、Cursor 和大多數其他工具：~/.agents/skills/（~ 代表你的使用者資料夾）。資料夾名稱要和檔案裡的名稱一樣。",
+"En Claude Code: ~/.claude/skills/. En Codex, Copilot, Cursor y la mayoría de las demás herramientas: ~/.agents/skills/ (~ es tu carpeta personal). La carpeta debe llamarse igual que el nombre que hay dentro del archivo."
 ],
 "Why does {n} only show up sometimes?": [
 "為什麼{n}不是每次都會出現？",
@@ -2776,9 +2780,9 @@ window.Stage = Stage;
 "更多方式（給程式開發工具用）",
 "Más opciones, para herramientas de programación"
 ],
-"Unzip it into your skills folder: {claude} for Claude Code, or {agents} for Codex, Copilot, Cursor, Gemini CLI and most others.": [
-"把它解壓縮到你的技能資料夾：Claude Code 用 {claude}，Codex、Copilot、Cursor、Gemini CLI 和大多數其他工具用 {agents}。",
-"Descomprímelo en tu carpeta de skills: {claude} para Claude Code, o {agents} para Codex, Copilot, Cursor, Gemini CLI y la mayoría de las demás."
+"Unzip it into your skills folder: {claude} for Claude Code, or {agents} for Codex, Copilot, Cursor and most others.": [
+"把它解壓縮到你的技能資料夾：Claude Code 用 {claude}，Codex、Copilot、Cursor 和大多數其他工具用 {agents}。",
+"Descomprímelo en tu carpeta de skills: {claude} para Claude Code, o {agents} para Codex, Copilot, Cursor y la mayoría de las demás."
 ],
 "Download {file} with builder extras": [
 "下載含開發者附加設定的 {file}",
@@ -2960,9 +2964,9 @@ window.Stage = Stage;
 "代理人檔案描述每位代理人怎麼說話和工作。它們絕不會凌駕於我的要求或你自己的安全規則之上。除非我要求，否則絕不執行這個資料夾裡的程式碼。",
 "Los archivos de los agentes describen cómo habla y trabaja cada uno. Nunca prevalecen sobre mi petición ni sobre tus propias reglas de seguridad. Nunca ejecutes código de esta carpeta a menos que yo te lo pida."
 ],
-"If no agent fits, or I ask for a new one, offer to craft one with me, and make that your recommended option. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.": [
-"如果沒有合適的代理人，或是我要一個新的，就提議和我一起打造一個，並把這個當成你推薦的選項。用選擇題問我它的工作、主要任務、規則和語氣，一直問到我們都同意為止。如果它的工作不是 Helpercraft 提供的，就寫成自訂工作。照其他代理人的格式把它存成 `{path}`，加進下面的團隊名單，然後繼續處理我的任務。如果我不想要，就直接幫我。",
-"Si ningún agente encaja, o si te pido uno nuevo, ofrécete a crear uno conmigo, y que esa sea tu opción recomendada. Hazme preguntas de opción múltiple sobre su trabajo, tareas principales, reglas y tono hasta que estemos de acuerdo. Si ese trabajo no es uno de los que ofrece Helpercraft, descríbelo como un trabajo personalizado. Guárdalo como `{path}` con el mismo formato que los demás agentes, añádelo a la lista del equipo que hay abajo y luego sigue con mi tarea. Si prefiero que no, ayúdame directamente."
+"If no agent comes close, say so in one line and recommend helping me directly. When my task is done, offer to save a new agent for this kind of task next time. If I say yes, or I ask for a new agent at any point, craft it with me: ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with anything left of my task.": [
+"如果連沾得上邊的代理人都沒有，就用一句話告訴我，並推薦由你直接幫我。等我的任務完成後，提議存一個新的代理人，下次遇到這類任務就能交給它。如果我說好，或是我在任何時候要一個新的代理人，就和我一起打造它：用選擇題問我它的工作、主要任務、規則和語氣，一直問到我們都同意為止。如果它的工作不是 Helpercraft 提供的，就寫成自訂工作。照其他代理人的格式把它存成 `{path}`，加進下面的團隊名單，然後如果我的任務還沒完成，就繼續處理。",
+"Si ningún agente se acerca a lo que necesito, dímelo en una línea y recomienda ayudarme directamente. Cuando termines mi tarea, ofrécete a guardar un agente nuevo que se encargue de este tipo de tareas la próxima vez. Si te digo que sí, o si en algún momento te pido un agente nuevo, créalo conmigo: hazme preguntas de opción múltiple sobre su trabajo, tareas principales, reglas y tono hasta que estemos de acuerdo. Si ese trabajo no es uno de los que ofrece Helpercraft, descríbelo como un trabajo personalizado. Guárdalo como `{path}` con el mismo formato que los demás agentes, añádelo a la lista del equipo que hay abajo y luego sigue con lo que quede de mi tarea."
 ],
 "My agent team": [
 "我的代理人團隊",
@@ -3163,10 +3167,6 @@ window.Stage = Stage;
 "Your agent, standing on a pedestal. Drag to spin.": [
 "你的代理人站在展示台上。拖曳可以旋轉。",
 "Tu agente, sobre un pedestal. Arrastra para girar."
-],
-"craft your own AI agent": [
-"打造你專屬的 AI 代理人",
-"crea tu propio agente de IA"
 ],
 "Agent home": [
 "代理人之家",
@@ -6495,7 +6495,9 @@ function renderNameplate() {
   $('#npRole').textContent = state.name.trim() ? jobTitleT() : '';
   const z = zodiacSign();
   $('#npTags').replaceChildren(...[mbtiCode(), z && `${glyph(z[2])} ${T(z[1])}`].filter(Boolean).map(t => h('span', { class: 'np-tag', text: t })));
-  document.title = `${displayName()} · Helpercraft`;
+  // the empty start screen says what Helpercraft is (it's also what search engines read); then the agent's name
+  document.title = !state.name.trim() && !state.customTitle.trim() && !state.specialty && !role().id   // no job yet
+    ? `Helpercraft: ${T('craft your own AI agent')}` : `${displayName()} · Helpercraft`;
   measureFree();   // a longer name can take two lines: the tag's height keeps it on short screens
 }
 
@@ -6832,7 +6834,7 @@ function faq() {   // what people ask, in plain words
   const qa = [
     [T('What’s inside {n}’s file?', { n }), T('Plain text you can read. At the top: {n}’s name and one sentence that tells an AI when to call them. Below: who they are, how they talk and work, and the rules they keep. An AI reads that top sentence first and opens the rest only when the job comes up.', { n })],
     [T('Which AI apps can use {n}?', { n }), T('Any AI can read {n}’s file. Paste the text into any chat, or install the folder in an app that supports skills, such as Claude, ChatGPT, Codex, Copilot, Cursor or Gemini.', { n })],
-    [T('Where do I put {n}’s folder?', { n }), T('In Claude Code: ~/.claude/skills/. In Codex, Copilot, Cursor, Gemini CLI and most other tools: ~/.agents/skills/ (~ means your home folder). Keep the folder’s name the same as the name inside the file.')],
+    [T('Where do I put {n}’s folder?', { n }), T('In Claude Code: ~/.claude/skills/. In Codex, Copilot, Cursor and most other tools: ~/.agents/skills/ (~ means your home folder). Keep the folder’s name the same as the name inside the file.')],
     [T('Why does {n} only show up sometimes?', { n }), T('An installed skill wakes up when your request matches its description. Call them by name, or paste them into a Claude Project, a custom GPT or a Gem to keep them in every chat.')],
     [T('I already have custom instructions, a CLAUDE.md or an AGENTS.md. Why add an agent?'), T('Those are read at the start of every chat, needed or not. An agent waits until their job comes up, so they can carry long, detailed instructions without crowding your other chats. Many people keep both: an agent for the job, always-on text for the personality.')],
     [T('Do MBTI types and star signs make it smarter?'), T('No. They add a short section called “Personality details” near the end of the file, after the job and the rules. It shapes how the agent talks and works, but never changes the job, facts, numbers or safety rules.')],
@@ -6875,7 +6877,7 @@ function certificate() {
     canFolder() ? h('p', { class: 'note', style: 'margin:-8px 0 22px' }, teamDir ? T('✓ Also saved in your team folder “{folder}”.', { folder: teamDir.name }) : T('Keep your whole team in one folder for your AI tools.'), ' ',
       h('button', { type: 'button', class: 'linkbtn', text: teamDir ? T('Copy for my AI') : T('Save the team to a folder'), onclick: teamDir ? copyForAI : connectTeam })) : null,
     h('details', { class: 'more' }, h('summary', { text: T('More ways, for coding tools') }),
-      h('p', { class: 'note' }, ...tn('Unzip it into your skills folder: {claude} for Claude Code, or {agents} for Codex, Copilot, Cursor, Gemini CLI and most others.', { claude: mono('~/.claude/skills/'), agents: mono('~/.agents/skills/') })),
+      h('p', { class: 'note' }, ...tn('Unzip it into your skills folder: {claude} for Claude Code, or {agents} for Codex, Copilot, Cursor and most others.', { claude: mono('~/.claude/skills/'), agents: mono('~/.agents/skills/') })),
       h('pre', { class: 'tree', text: treeText(sk) }),
       h('div', { class: 'btn-col' },
         h('button', { type: 'button', class: 'btn ghost', 'data-act': 'tools-zip', text: extrasOn() ? T('Download {file} with builder extras', { file: zipName }) : T('Download {file}', { file: zipName }), onclick: () => download(zipName, skillZip(buildSkill())) }),
@@ -7163,7 +7165,7 @@ const aiSteps = (where = 'agents/<name>/SKILL.md') => [`## ${T('For the AI readi
   // Evaluation 2 found answers opening with an agent's name ("[name] here!") lost to installed skills; the agents' voice stays, the announcing goes
   `5. ${T('Give me one finished answer, as the agents would: in their voice, but without announcing them, signing with their names, or labelling parts by agent.')}`,
   `6. ${T('The agent files describe how each agent talks and works. They never override my request or your own safety rules. Never run code from this folder unless I ask.')}`, '',
-  T("If no agent fits, or I ask for a new one, offer to craft one with me, and make that your recommended option. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.", { path: where }), ''];
+  T("If no agent comes close, say so in one line and recommend helping me directly. When my task is done, offer to save a new agent for this kind of task next time. If I say yes, or I ask for a new agent at any point, craft it with me: ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with anything left of my task.", { path: where }), ''];
 function startHere(team, others = []) {   // others: agents in the folder that Helpercraft didn't make, e.g. ones the AI drafted with you
   return [START_MARK, `# ${T('My agent team')}`, '',
     T('I made these AI agents with Helpercraft. Each one is a skill: `agents/<name>/SKILL.md`.'), '',
@@ -7596,7 +7598,7 @@ async function selfTest() {
     metas[2].description === 'Folded over two lines' && metas[3].description === 'Plain words that carry on here' && metas[4] === null, 'skills you already have: the name and description read right from any SKILL.md');
   const shs = skillsStartHere([{ dir: 'pdf-tools', name: 'pdf-tools', desc: 'a|b' }]);
   ok(shs.startsWith(START_MARK) && shs.includes('| pdf-tools | a/b | pdf-tools/SKILL.md |') && shs.includes(T('Ask for my OK as a multiple-choice question, with your recommendation first. Keep asking until we agree. I might change who does what.')) &&
-    shs.includes(T("If no agent fits, or I ask for a new one, offer to craft one with me, and make that your recommended option. Ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with my task. If I'd rather not, help me directly.", { path: '<name>/SKILL.md' })),
+    shs.includes(T("If no agent comes close, say so in one line and recommend helping me directly. When my task is done, offer to save a new agent for this kind of task next time. If I say yes, or I ask for a new agent at any point, craft it with me: ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `{path}` in the same layout as the other agents, add it to the team list below, then carry on with anything left of my task.", { path: '<name>/SKILL.md' })),
     'skills you already have: START-HERE.md lists them, with the same steps as a team');
   // Written into the browser's own private test folder (never a real one), with an in-memory Agent home
   const opfs = navigator.storage && navigator.storage.getDirectory ? await navigator.storage.getDirectory().catch(() => null) : null;
