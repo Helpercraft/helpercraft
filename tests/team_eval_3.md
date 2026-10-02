@@ -113,6 +113,18 @@ My 5 (t51–t55) add 3 short and 2 two-part tasks. Two of them (t52 and t55) hav
 - **A human check:** I'll rate 20 random pairs myself, blind, on a page that shows them in random order. My agreement with each judge is reported. It's a check, not the decider.
 - **Size:** with 55 tasks, there's roughly an 80% chance of seeing a true 70% preference. Smaller effects may not show, and the report will say so.
 
+## Clarified before any run (2 October 2026)
+
+Written with the test script (`tests/team_eval_3.py`), before the pilot:
+- **Turns:** "up to 4 turns" means up to 4 user messages in all: the task, then at most 3 scripted replies. A run still waiting at the end is recorded as "ran out of turns".
+- **Tools:** every setup gets the same list: Claude Code's default tools, minus the shell and the tools that act outside the run (scheduling, reminders, monitors, messages to other sessions, multi-agent workflows, design sync, git worktrees, code-review reports). The exact list is in the script; it is also D's "default tools".
+- **Reads and the web:** like writes, reads stay inside the run's own folders. Runs live outside my home folder, so they can't open the repo, this plan, the task file or saved conversations on this computer. They also can't fetch Helpercraft's site or GitHub, where the tasks are published. A run whose web search still shows the task page, the task file or this plan leaves the comparison, and the report lists it; other web results that mention Helpercraft are listed too.
+- **Version and effort:** one Claude Code version for the whole test, with auto-update off. Sonnet runs at its own default effort (medium), set explicitly.
+- **What's judged:** every message except pure questions (waiting for me, with no file written), then every file the AI made. The length check uses the same text. Files C saves in its team folder count too, except its agents and `START-HERE.md`.
+- **A delivered page:** a `.html` file, or a whole HTML document in a message.
+- **The judge's prompt, the check marking and the five safety rules** (each with what counts as breaking it) are in the script.
+- **Setup D's subagents** are the app's own "Download as a subagent" files (`tests/fixtures/team-3-subagents`, made by `tests/team_3_subagents.py`).
+
 ## Pilot
 
 About 5 tasks per setup, to fix script bugs and measure time and cost.
