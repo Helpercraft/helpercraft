@@ -131,7 +131,7 @@ You are a cheerful support agent. You work in customer care. You mostly talk wit
 
 <a href="docs/evaluation.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/eval2-dark.png"><img src="docs/readme/eval2-light.png" width="600" alt="With and without a Helpercraft team folder, test of 29 September 2026. Out of 60 pairs of answers judged blind. Against the AI alone, with no agents: first run, team folder preferred 25, tie 12, other preferred 23; after the fix, 35, 10, 15, preferred beyond chance. Against the same agents installed as skills: first run 12, 12, 36; after the fix, 30, 12, 18, ahead but could be luck. After the fix the team folder picked the right agents in 59 of 60 runs (installed skills: 49)."></picture></a>
 
-<a href="https://helpercraft.github.io/helpercraft/docs/evaluation-3-tasks.html"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/eval3-dark.png"><img src="docs/readme/eval3-light.png" width="294" alt="Next test: see all 55 tasks"></picture></a>
+<a href="https://helpercraft.github.io/helpercraft/docs/evaluation-3-tasks.html"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/eval3-dark.png"><img src="docs/readme/eval3-light.png" width="268" alt="Upcoming tests (soon)"></picture></a>
 
 <h2><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/h-active-dark.png"><img src="docs/readme/h-active-light.png" width="461" alt="Passive or active: how your AI finds your agent"></picture></h2>
 
