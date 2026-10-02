@@ -131,6 +131,8 @@ You are a cheerful support agent. You work in customer care. You mostly talk wit
 
 <a href="docs/evaluation.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/eval2-dark.png"><img src="docs/readme/eval2-light.png" width="600" alt="With and without a Helpercraft team folder, test of 29 September 2026. Out of 60 pairs of answers judged blind. Against the AI alone, with no agents: first run, team folder preferred 25, tie 12, other preferred 23; after the fix, 35, 10, 15, preferred beyond chance. Against the same agents installed as skills: first run 12, 12, 36; after the fix, 30, 12, 18, ahead but could be luck. After the fix the team folder picked the right agents in 59 of 60 runs (installed skills: 49)."></picture></a>
 
+<a href="https://helpercraft.github.io/helpercraft/docs/evaluation-3-tasks.html"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/eval3-dark.png"><img src="docs/readme/eval3-light.png" width="294" alt="Next test: see all 55 tasks"></picture></a>
+
 <h2><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/h-active-dark.png"><img src="docs/readme/h-active-light.png" width="461" alt="Passive or active: how your AI finds your agent"></picture></h2>
 
 | Passive (installed skills) | Active (a Helpercraft team folder) |
@@ -206,29 +208,54 @@ All are optional, under **For builders** in the Craft step. The Claude app rejec
 
 ## Questions
 
-**What's inside an agent's file?**
+<details>
+<summary><b>What's inside an agent's file?</b></summary>
+
 Plain text: a name and a one-sentence description that the AI uses to decide when to call the agent, then its role, working style, tasks and rules.
 
-**Why does my agent only show up sometimes?**
+</details>
+
+<details>
+<summary><b>Why does my agent only show up sometimes?</b></summary>
+
 An installed skill loads when your request matches its description. Ask for it by name or job, or add it to a Claude Project, a custom GPT or a Gem.
 
-**I already use custom instructions, a CLAUDE.md or an AGENTS.md. Why add agents?**
+</details>
+
+<details>
+<summary><b>I already use custom instructions, a CLAUDE.md or an AGENTS.md. Why add agents?</b></summary>
+
 Those load in every chat. An agent loads only when its job comes up, so it can hold detailed instructions without crowding other chats. You can use both.
 
-**Is a Healthcare or Legal agent an expert?**
+</details>
+
+<details>
+<summary><b>Is a Healthcare or Legal agent an expert?</b></summary>
+
 No. A role sets tone and guardrails, not professional knowledge. The agent is told not to diagnose, prescribe or give legal advice, and when to hand over to a person, but AI can ignore rules: in my test, asked for "just the number", it still gave a common label dose. Healthcare agents also say they give general information, not medical advice.
 
-**What do pets, MBTI types and star signs change?**
+</details>
+
+<details>
+<summary><b>What do pets, MBTI types and star signs change?</b></summary>
+
 Only how the agent talks and works. They sit at the end of the file, which tells the AI they never override facts, numbers or safety rules. None of it is science. "MBTI" and "Myers-Briggs Type Indicator" are trademarks of The Myers-Briggs Company; Helpercraft isn't affiliated with or endorsed by them.
 
-**Can I share an agent?**
+</details>
+
+<details>
+<summary><b>Can I share an agent?</b></summary>
+
 Yes: set "Who can copy them?" in the Craft step and share the file or zip. Only install skills from people you trust, because a skill is instructions your AI will follow.
+
+</details>
 
 ## Roadmap
 
 No dates yet. Ideas are welcome in [Discussions](https://github.com/helpercraft/helpercraft/discussions).
 
 1. **A controlled experiment** *(ongoing)*
+   - The plan and [all 55 tasks](https://helpercraft.github.io/helpercraft/docs/evaluation-3-tasks.html) are published before any run.
    - Fresh tasks, never used for tuning, with the same steps for every setup.
    - More AI tools and models, more kinds of tasks, and longer, multi-step tasks.
    - Complex tasks with many agents: does asking first give you more control than an AI that starts agents on its own, without worse results?
