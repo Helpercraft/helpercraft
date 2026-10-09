@@ -34,7 +34,18 @@ On https (or `localhost`), Helpercraft can be added to the Home Screen and opens
 
 - **Self-test:** open `helpercraft.html#test`; every check should pass. It covers names, YAML quoting, every job and job title, the portable file and the Claude app zip, builder extras, zip structure, saved and restored agents, the team folder, and a byte-for-byte guard on the default file. Opened from a file, it skips the 5 folder checks, which need the browser's private test folder.
 - **Translations:** the self-test fails if a text is missing its Chinese or Spanish, or a `{placeholder}`. To edit translations, run `python tests/i18n.py pull`, edit `tests/out/i18n/zh.json` or `es.json`, then run `python tests/i18n.py check` (it should report no problems) and `python tests/i18n.py merge`.
-- **End-to-end tests:** `python tests/e2e.py` clicks through Helpercraft as a person would, in Chrome, Edge, Chromium, Firefox and WebKit, at phone, tablet and computer sizes, in all three languages, opened as a file and from a local server, plus stress, broken-input and security tests. Setup and commands are in the README's [For builders](README.md#for-builders) section. Everything stays on your computer.
+- **End-to-end tests:** `python tests/e2e.py` clicks through Helpercraft as a person would, in Chrome, Edge, Chromium, Firefox and WebKit, at phone, tablet and computer sizes, in all three languages, opened as a file and from a local server, plus stress, broken-input and security tests. Everything stays on your computer. Setup and commands:
+
+```bash
+git clone https://github.com/helpercraft/helpercraft.git
+cd helpercraft
+pip install playwright pyyaml pillow
+python -m playwright install chromium firefox webkit
+python tests/e2e.py --tiers A --rounds 1 --engines chrome   # a quick check: a few minutes
+python tests/e2e.py                                         # everything: 5 browsers, about 45 minutes
+```
+
+The full run also needs Google Chrome and Microsoft Edge (`--engines chromium,chrome,firefox,webkit` skips Edge).
 
 ## Rules that keep Helpercraft what it is
 
