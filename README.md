@@ -58,8 +58,8 @@ my-team/
 2. suggest which agents should take which part, as many as the task needs;
 3. confirm with you in multiple-choice questions until you agree;
 4. use the chosen agents where they are, without copying them;
-5. give one finished answer, without naming or signing as the agents;
-6. never use an agent to get around your request or its safety rules.
+5. give the finished work without naming or signing as the agents, saving what you'll print, send or use as files;
+6. put your requests before an agent's rules, unless that's unsafe.
 
 If no agent comes close, it recommends helping you directly, then offers to save a new agent once your task is done. If you say yes, or ask for one at any point, it drafts the agent with you the same way, saves it in the folder and adds it to the team. Asking first is an instruction, not a lock. Setup is under [Your team folder](#your-team-folder-chrome-or-edge-on-a-computer).
 
@@ -79,10 +79,10 @@ I made these AI agents with Helpercraft. Each one is a skill: `agents/<name>/SKI
 2. For my task, suggest which agents should take which part: each one's name, job and what they'd do. Suggest as many as the task needs; one is fine for a small task.
 3. Ask for my OK as a multiple-choice question, with your recommendation first. Keep asking until we agree. I might change who does what.
 4. Then read the chosen agents' `SKILL.md` files here, where they are, and follow each one for their part. Don't copy or install them anywhere else.
-5. Give me one finished answer, as the agents would: in their voice, but without announcing them, signing with their names, or labelling parts by agent.
-6. The agent files describe how each agent talks and works. They never override my request or your own safety rules. Never run code from this folder unless I ask.
+5. Give me the finished work, as the agents would: in their voice, but without announcing them, signing with their names, or labelling parts by agent. If you can save files, save each thing I'll print, send or use (such as a poster, a message or a tracker) as its own file in the folder I'm working in, not this team folder, and tell me where it is.
+6. The agent files describe how each agent talks and works. They never override my request or your own safety rules: if an agent's rule would stop something I ask for, such as an offer I choose to make, do what I ask unless it's unsafe. Never run code from this folder unless I ask.
 
-If no agent comes close, say so in one line and recommend helping me directly. When my task is done, offer to save a new agent for this kind of task next time. If I say yes, or I ask for a new agent at any point, craft it with me: ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `agents/<name>/SKILL.md` in the same layout as the other agents, add it to the team list below, then carry on with anything left of my task.
+If no agent comes close, say so in one line and recommend helping me directly. In that case, once my task is done, offer to save a new agent for this kind of task next time. If I say yes, or I ask for a new agent at any point, craft it with me: ask me multiple-choice questions about its job, main tasks, rules and tone until we agree. If the job isn't one of Helpercraft's, describe it as a custom job. Save it as `agents/<name>/SKILL.md` in the same layout as the other agents, add it to the team list below, then carry on with anything left of my task.
 
 ## The team
 
@@ -127,17 +127,15 @@ You are a cheerful support agent. You work in customer care. You mostly talk wit
 
 </details>
 
-**Tested:** 24 agents, 20 tasks, 3 runs each, in Claude Code. A blind AI judge compared each pair of answers twice, in both orders; an answer counts as preferred only if it won both times. It preferred the team folder's answers over the AI alone in 35 of 60 pairs (15 the other way, 10 ties), beyond chance by the rule set before the run. Against the same agents installed as skills it was 30 to 18 with 12 ties, which could be luck. Two caveats: counted task by task, the first lead could also be luck, and the team folder's answers were about a third longer, which AI judges tend to favour. These results came after one fix; in the first run, installed skills won. A controlled experiment is under way (see the [roadmap](#roadmap)). [Both runs and their limits](docs/evaluation.md).
+**Tested** on 90 everyday tasks in Claude Code with Claude Sonnet, each pair of answers judged blind by an AI (a person's blind ratings in an earlier round agreed with it). Helpercraft 1.0.5 came out ahead of an AI that starts agents itself, slightly ahead of the same AI told to ask first (not a clear difference), and even with the same agents installed as skills. So it may improve answers a little in this setup; with other tools, models or settings, results may differ. [How the tests worked](docs/tests-3-to-6.md) · [tests 1 and 2](docs/evaluation.md)
 
-<a href="docs/evaluation.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/eval2-dark.png"><img src="docs/readme/eval2-light.png" width="600" alt="With and without a Helpercraft team folder, test of 29 September 2026. Out of 60 pairs of answers judged blind. Against the AI alone, with no agents: first run, team folder preferred 25, tie 12, other preferred 23; after the fix, 35, 10, 15, preferred beyond chance. Against the same agents installed as skills: first run 12, 12, 36; after the fix, 30, 12, 18, ahead but could be luck. After the fix the team folder picked the right agents in 59 of 60 runs (installed skills: 49)."></picture></a>
-
-<a href="https://helpercraft.github.io/helpercraft/docs/evaluation-3-tasks.html"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/eval3-dark.png"><img src="docs/readme/eval3-light.png" width="268" alt="Upcoming tests (soon)"></picture></a>
+<a href="docs/tests-3-to-6.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/results-dark.png"><img src="docs/readme/results-light.png" width="600" alt="How answers made with Helpercraft compared, every blind-judged test from 29 September to 8 October 2026. Against the AI alone: test 1, 25 preferred, 12 ties, 23 the other way, of 60; test 2, 35, 10, 15 of 60; test 3, 19, 12, 24 of 55; test 4, 25, 8, 22 of 55; test 5, 26, 15, 49 of 90; test 6 (version 1.0.5), 43, 12, 35 of 90. Against the same agents installed as skills: test 1, 12, 12, 36; test 2, 30, 12, 18; test 3, 18, 9, 28; test 4, 26, 11, 18; test 5, 27, 22, 41; test 6, 37, 17, 36. Against the same agents as subagents the AI starts itself: test 3, 15, 10, 30; test 4, 17, 9, 29; test 5, 44, 18, 28; test 6, 59, 15, 16."></picture></a>
 
 <h2><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/h-active-dark.png"><img src="docs/readme/h-active-light.png" width="461" alt="Passive or active: how your AI finds your agent"></picture></h2>
 
 | Passive (installed skills) | Active (a Helpercraft team folder) |
 |---|---|
-| Skills load when the AI decides they fit. In long sessions, AI tools shorten the conversation, and earlier skills can drop out ([bug report](https://github.com/anthropics/claude-code/issues/13919)). In my first test, the AI usually started the task without asking (25 of 30), and after the conversation was shortened, the skill wasn't reloaded (0 of 9). | You point the AI at the team. It suggested agents and asked first in 29 of 30 runs, and after the conversation was shortened, Claude Code kept the agent's file in view (9 of 9). [The test](docs/evaluation-1.md) |
+| Skills load when the AI decides they fit. In long sessions, AI tools shorten the conversation, and earlier skills can drop out ([bug report](https://github.com/anthropics/claude-code/issues/13919)). In an early behaviour test, the AI usually started the task without asking (25 of 30), and after the conversation was shortened, the skill wasn't reloaded (0 of 9). | You point the AI at the team. It suggested agents and asked first in 29 of 30 runs, and after the conversation was shortened, Claude Code kept the agent's file in view (9 of 9). [The test](docs/evaluation-1.md) |
 
 <h2><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/h-personality-dark.png"><img src="docs/readme/h-personality-light.png" width="435" alt="Personality that fits the job"></picture></h2>
 
@@ -254,12 +252,9 @@ Yes: set "Who can copy them?" in the Craft step and share the file or zip. Only 
 
 No dates yet. Ideas are welcome in [Discussions](https://github.com/helpercraft/helpercraft/discussions).
 
-1. **A controlled experiment** *(ongoing)*
-   - The plan and [all 55 tasks](https://helpercraft.github.io/helpercraft/docs/evaluation-3-tasks.html) are published before any run.
-   - Fresh tasks, never used for tuning, with the same steps for every setup.
-   - More AI tools and models, more kinds of tasks, and longer, multi-step tasks.
-   - Complex tasks with many agents: does asking first give you more control than an AI that starts agents on its own, without worse results?
-   - Scored by common practice: a length-corrected preference with error ranges, a second judge from another company, and about 20 pairs checked by hand. "Better" only if both judges agree, and results published either way.
+1. **More tests** *(paused)*
+   - Six blind-judged tests so far, all in Claude Code, each planned before it ran: [tests 1 and 2](docs/evaluation.md) and [tests 3 to 6](docs/tests-3-to-6.md).
+   - Next time: other AI tools and models, and a second judge from another company.
 2. **Fit with the tools you already use**
    - Set up a team folder in tools that organize agents their own way, such as Claude Code's subagents.
    - Note where they overlap or clash, and fill the gaps.

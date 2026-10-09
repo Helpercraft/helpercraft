@@ -1,8 +1,8 @@
-# First test: with and without a Helpercraft team folder
+# Behaviour test: with and without a Helpercraft team folder
 
 Tested on 29 September 2026 with Claude Code 2.1.284 (claude-opus-5-5), in a clean setup with no personal settings, plugins or add-ons.
 The plan and scoring rules were written and committed before the full run: [tests/team_eval.md](../tests/team_eval.md). Three sentences in it were corrected after the run, and the plan quotes the originals.
-The second, bigger test, which also scores the answers against the AI alone, is in [evaluation.md](evaluation.md).
+Tests 1 and 2, which also score the answers against the AI alone, are in [evaluation.md](evaluation.md), and tests 3 to 6 in [tests-3-to-6.md](tests-3-to-6.md).
 
 **About the words:** when this test ran, Helpercraft called its agents "helpers" and gave each one a name. The prompts, the files and the AI's replies quoted below use those words. On 30 September 2026 the app renamed them "agents" and made names optional. This report uses the new words, calls each test agent by its job, and shows names in quotes as [name].
 

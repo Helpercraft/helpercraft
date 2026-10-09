@@ -53,6 +53,11 @@ TURN_TIMEOUT = 1800
 ASK_FIRST = 'Before you start, tell me your plan and ask for my OK as a multiple-choice question.'
 COPY = 'My agent team is in {where}. Read START-HERE.md there first, then suggest which of my agents should work on my task, and wait for my OK.'
 OK = 'OK, go ahead with your recommendation.'
+PLAN = 'tests/team_eval_3.md'
+
+
+def user_reply(tid, turns):   # the scripted user's answer to a waiting AI; Evaluation 4 swaps in one who answers from hidden details
+    return OK
 TEXT_LIMIT = 60000       # characters of one file shown to a judge
 
 
@@ -177,8 +182,10 @@ HOME = Path.home().as_posix()
 DENY = ([f'{tool}({p}/**)' for p in (HOME, DONE.as_posix()) for tool in ('Read', 'Glob', 'Grep', 'Edit', 'Write', 'NotebookEdit')]
         + [f'WebFetch(domain:{d})' for d in ('helpercraft.github.io', 'github.com', 'raw.githubusercontent.com')])   # the published task page, plan and task file
 LEAK_MARKS = ('evaluation-3-tasks', 'tasks-3.json', 'team_eval_3', 'team-3-subagents', 'everyday work: the')
+AUTO_PAGE_LOSS = True   # Evaluation 4 turns it off: its tasks never ask for a page
+CHECK_PLAN = 'tests/team_eval_3_check.md'   # the plan of a check of a fix that reuses an earlier run
 AGENT_TOOLS = ('Task', 'Agent')   # Claude Code's subagent tool, under either name
-LIMIT = re.compile(r'usage limit|limit reached|hit your limit|rate.?limit|too many requests', re.I)
+LIMIT = re.compile(r'usage limit|limit reached|hit your (?:\w+ )?limit|session limit|weekly limit|rate.?limit|too many requests', re.I)
 BUSY = re.compile(r'overloaded|internal server error|bad gateway|service unavailable|gateway timeout|econnreset|socket hang up|fetch failed|network error|\b(500|502|503|504|529)\b', re.I)
 AUTH = re.compile(r'invalid api key|/login|not logged in|authenticat|oauth token|unauthori[sz]ed|credit balance', re.I)
 VERSION = {}             # the Claude Code version seen first; the run stops if it changes
@@ -260,10 +267,12 @@ def claude(cwd, prompt, *, session=None, add_dir=None, model=MODEL, tools=None, 
 
 def failure(r):
     """'limit' (wait for the reset, then start the conversation again), 'busy' (a brief server error: a minute, then
-    again), 'auth' (stop everything), 'error' (one rerun) or None."""
-    if not r.get('error'):
+    again), 'auth' (stop everything), 'error' (one rerun) or None. A reply written by Claude Code itself (model
+    '<synthetic>', such as "You've hit your session limit") is read by its text, since it comes without an error flag."""
+    synthetic = '<synthetic>' in (r.get('model') or [])
+    if not r.get('error') and not synthetic:
         return None
-    blob = (r.get('error') or '') + ' ' + (r.get('stderr') or '')
+    blob = (r.get('error') or '') + ' ' + (r.get('stderr') or '') + (' ' + (r.get('text') or '') if synthetic else '')
     if AUTH.search(blob):
         return 'auth'
     if LIMIT.search(blob):
@@ -302,8 +311,23 @@ def ask(prompt, model=JUDGE_MODEL, tries=2):
             if m:
                 return json.loads(m.group(0)), cost
         except ValueError:
-            pass
+            fixed = last_json(r.get('text') or '')   # a reply that corrects itself holds two answers: take its last one
+            if fixed is not None:
+                return fixed, cost
     return None, cost
+
+
+def last_json(text):
+    """The last JSON object in a text, or None."""
+    dec, found, i = json.JSONDecoder(), None, text.find('{')
+    while i != -1:
+        try:
+            obj, end = dec.raw_decode(text, i)
+            found = obj if isinstance(obj, dict) else found
+            i = text.find('{', end)
+        except ValueError:
+            i = text.find('{', i + 1)
+    return found
 
 
 # ---------- one conversation ----------
@@ -406,11 +430,13 @@ def conversation(tid, setup, attempt):
                 written = sorted({f for t in turns + [r] for f in t['files']})
                 w, cost = ask(WAITING.format(task=TASK[tid]['task'], files=', '.join(Path(f).name for f in written) or 'none', text=r['text']), model=READER_MODEL)
                 r['waiting'] = bool(w['waiting']) if w and 'waiting' in w else r['text'].rstrip().endswith('?')
-                r['reader_cost'] = cost
+                r['reader_cost'], r['reader'] = cost, w
             turns.append(r)
-            if r.get('error') or not r.get('waiting'):
+            if r.get('error') or not r.get('waiting') or n == MAX_TURNS - 1:
                 break
-            prompt, session = OK, r.get('session')
+            prompt, session = user_reply(tid, turns), r.get('session')
+            if prompt is None:   # the user has nothing to add (Evaluation 4's pretend user ends the chat)
+                break
         if retry:
             kind, r = retry
             if kind == 'limit':
@@ -539,6 +565,11 @@ def do_checks(data, path, workers=4):
             save(data, path)
 
 
+def judged(rec):
+    """The text the judge reads (Evaluation 4 adds the person's replies)."""
+    return answer(rec)
+
+
 def has_page(r):
     return bool(r.get('pages')) and any(p['opens'] for p in r['pages'])
 
@@ -553,21 +584,25 @@ def pair_extra(t, c, o, c_first):
     return extra
 
 
+def others(data):
+    return [s for s in 'ABDO' if any(r['setup'] == s for r in data['runs'])]
+
+
 def pair_prompts(data):
     """(task, other, order, prompt) for every pair still to judge; order 1: C is answer 1. The missing-page rule decides
     a page task without a judge when only one side delivered a page that opens."""
     best, jobs, auto = ok_runs(data), [], []
     for t in TASKS:
         c = best.get((t['id'], 'C'))
-        for other in 'ABD':
+        for other in others(data):
             o = best.get((t['id'], other))
             if not c or not o or c.get('error') or o.get('error') or c.get('leaked') or o.get('leaked'):
                 continue
-            if t['category'] == 'long-page' and has_page(c) != has_page(o):
+            if AUTO_PAGE_LOSS and t['category'] == 'long-page' and has_page(c) != has_page(o):
                 auto.append({'task': t['id'], 'vs': other, 'outcome': 'C' if has_page(c) else 'other', 'auto': 'missing page'}); continue
             for order in (1, 2):
                 a, b = (c, o) if order == 1 else (o, c)
-                jobs.append((t['id'], other, order, PAIR.format(task=t['task'], extra=pair_extra(t, c, o, order == 1), a=answer(a), b=answer(b))))
+                jobs.append((t['id'], other, order, PAIR.format(task=t['task'], extra=pair_extra(t, c, o, order == 1), a=judged(a), b=judged(b))))
     return jobs, auto
 
 
@@ -655,7 +690,7 @@ def score(data):
     best_ok = {k: r for k, r in best.items() if not r.get('leaked')}
     s = {'comparisons': {}, 'behaviour': {}, 'errors': sorted(f'{r["task"]}-{r["setup"]}' for r in best.values() if r.get('error')),
          'left out: saw the task page or file': sorted(f'{r["task"]}-{r["setup"]}' for r in best.values() if r.get('leaked'))}
-    for other in 'ABD':
+    for other in others(data):
         comp = {}
         for subset, keep in (('all', lambda t: True), ('length within 20%', None), ('without my tasks', lambda t: t not in OWNER_TASKS)):
             by_judge = {}
@@ -672,7 +707,7 @@ def score(data):
                 by_judge[judge]['judging errors'] = sum(x['outcome'] == 'error' for x in rows)
             comp[subset] = {'judges': by_judge, 'verdict': verdict_word(by_judge)}
         s['comparisons'][f'C vs {other}'] = comp
-    for setup in 'ABCD':
+    for setup in [s for s in 'ABCDO' if any(r['setup'] == s for r in data['runs'])]:
         rs = [r for (t, su), r in best_ok.items() if su == setup and not r.get('error')]
         first = [r.get('first') or {} for r in rs]
         b = {'runs': len(rs),
@@ -692,7 +727,7 @@ def score(data):
         b['checks passed'] = f"{sum(x.count('pass') for x in checked)} of {sum(len(x) for x in checked)}"
         pages = [r for r in rs if TASK[r['task']]['category'] == 'long-page']
         b['pages that opened offline'] = f'{sum(has_page(r) for r in pages)} of {len(pages)}'
-        if setup == 'C':
+        if setup in 'CO':
             b['read START-HERE.md first'] = sum(next((u['input'].get('file_path', '').endswith('START-HERE.md') for u in r['turns'][0]['tools'] if u['tool'] == 'Read'), False) for r in rs)
             nofit = [r for r in rs if 'no-fit' in TASK[r['task']]['flags']]
             b['no-fit tasks: recommended crafting'] = f"{sum(bool((r.get('first') or {}).get('recommended_new_agent')) for r in nofit)} of {len(nofit)}"
@@ -715,12 +750,22 @@ def save(data, path):
 
 
 def do_run(a):
+    global TEAM
     OUT.mkdir(parents=True, exist_ok=True)
+    if a.team:   # the check of the fix (tests/team_eval_3_check.md): C's team folder made by a newer app, the same 18 agents
+        TEAM = ROOT / 'tests' / 'fixtures' / a.team
+        assert sorted(d.name for d in (TEAM / 'agents').iterdir() if d.is_dir()) == AGENTS, 'the same 18 agents'
     keys = PILOT if a.pilot else (a.tasks.split(',') if a.tasks else [t['id'] for t in TASKS])
     path = Path(a.resume) if a.resume else OUT / f'{"pilot" if a.pilot else "run"}-claude-{datetime.datetime.now():%Y%m%d-%H%M}.json'
     data = json.loads(path.read_text(encoding='utf-8')) if path.exists() else {
-        'plan': 'tests/team_eval_3.md', 'tool': 'claude', 'model': MODEL, 'effort': EFFORT, 'tools': TOOLS, 'max_turns': MAX_TURNS,
-        'pilot': a.pilot, 'started': datetime.datetime.now().isoformat(timespec='seconds'), 'runs': []}
+        'plan': PLAN, 'tool': 'claude', 'model': MODEL, 'effort': EFFORT, 'tools': TOOLS, 'max_turns': MAX_TURNS,
+        'pilot': a.pilot, 'started': datetime.datetime.now().isoformat(timespec='seconds'), 'team': a.team or 'team-3', 'runs': []}
+    if a.reuse and not data['runs']:   # A, B and D don't read START-HERE.md, so their runs are reused; the old C becomes O ("before the fix")
+        old = json.loads(Path(a.reuse).read_text(encoding='utf-8'))
+        data.update(note=CHECK_PLAN, reused_from=Path(a.reuse).name, version=old.get('version'))
+        data['runs'] = [r for r in old['runs'] if r['setup'] in 'ABD'] + [{**r, 'setup': 'O'} for r in old['runs'] if r['setup'] == 'C']
+    if data['team'] != (a.team or 'team-3'):
+        raise Stop(f"This results file used the team folder {data['team']}; run it again with --team {data['team']}.")
     VERSION.update({'claude': data['version']} if data.get('version') else {})
     shutil.rmtree(LIVE, ignore_errors=True)
     finished = {(r['task'], r['setup']): r for r in data['runs']}
@@ -760,7 +805,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     sub = ap.add_subparsers(dest='cmd', required=True)
     r = sub.add_parser('run'); r.add_argument('--pilot', action='store_true'); r.add_argument('--tasks'); r.add_argument('--setups', default=SETUPS)
-    r.add_argument('--workers', type=int, default=4); r.add_argument('--resume')
+    r.add_argument('--workers', type=int, default=4); r.add_argument('--resume'); r.add_argument('--team'); r.add_argument('--reuse')
     for name in ('check', 'judge', 'score'):
         s = sub.add_parser(name); s.add_argument('file')
     e = sub.add_parser('export-judge'); e.add_argument('file'); e.add_argument('out')
@@ -816,6 +861,9 @@ def _check():
     # what gets judged: a pure question turn is left out; a turn that wrote a file is kept
     rec = {'turns': [{'text': 'Plan: A or B? I recommend A.', 'waiting': True, 'files': []}, {'text': 'Done. Here it is.', 'waiting': False, 'files': ['x.html']}],
            'files': [{'path': 'x.html', 'content': '<html></html>'}]}
+    assert failure({'text': "You've hit your session limit · resets 8:30pm (Asia/Tokyo)", 'model': ['<synthetic>']}) == 'limit'
+    assert last_json('{"a": 1}\n\nCorrection: {"a": 2} done') == {'a': 2} and last_json('no json') is None
+    assert failure({'text': 'Done.', 'model': [MODEL]}) is None and failure({'text': 'Odd.', 'model': ['<synthetic>']}) == 'error'
     assert answer(rec) == 'Done. Here it is.\n\n[File: x.html]\n<html></html>'
     rec['turns'][0]['files'] = ['notes.md']
     assert answer(rec).startswith('Plan: A or B?')

@@ -1,6 +1,6 @@
 // Keeps a copy of Helpercraft on this device, so the Home Screen app opens without internet.
 // It only fetches Helpercraft's own files from its own address, and never sends anything anywhere.
-const CACHE = 'helpercraft-v6';
+const CACHE = 'helpercraft-v7';
 const FILES = ['helpercraft.html', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png'];
 // './' is the short address's page (index.html), so a shared link or bookmark opens offline too. It's optional:
 // a copy hosted without index.html still installs.

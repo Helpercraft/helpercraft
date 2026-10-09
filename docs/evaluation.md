@@ -1,6 +1,6 @@
 # With and without a Helpercraft team folder
 
-Tested on 29 September 2026 with Claude Code 2.1.284 (claude-opus-5-5), in a clean setup with no personal settings, plugins or add-ons. Each run's plan and scoring rules were committed before it started: [the first run](../tests/team_eval_2.md) and [the re-test after one fix](../tests/team_eval_2b.md). Every result is here, including the run where the team folder lost.
+Tested on 29 September 2026 with Claude Code 2.1.284 (claude-opus-5-5), in a clean setup with no personal settings, plugins or add-ons. Each run's plan and scoring rules were committed before it started: [the first run](../tests/team_eval_2.md) and [the re-test after one fix](../tests/team_eval_2b.md). Every result is here, including the run where the team folder lost. In the results chart these are tests 1 and 2; [tests 3 to 6](tests-3-to-6.md) followed in October.
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="readme/eval2-dark.png"><img src="readme/eval2-light.png" width="600" alt="With and without a Helpercraft team folder, test of 29 September 2026. Out of 60 pairs of answers judged blind. Against the AI alone, with no agents: first run, team folder preferred 25, tie 12, other preferred 23; after the fix, 35, 10, 15, preferred beyond chance. Against the same agents installed as skills: first run 12, 12, 36; after the fix, 30, 12, 18, ahead but could be luck. After the fix the team folder picked the right agents in 59 of 60 runs (installed skills: 49)."></picture>
 
@@ -116,9 +116,9 @@ These weren't pre-set scores.
 - The tests used the earlier wording ("helpers", each with a name). The app now says "agents" and names are optional; that wording hasn't been tested yet.
 - `START-HERE.md` has also changed since: the AI now suggests as many agents as a task needs, confirms with multiple-choice questions, and recommends drafting a new agent with you when none fits. These steps weren't part of the tests.
 
-## The first test
+## The behaviour test
 
-The [first test](evaluation-1.md) compared the team folder with installed skills, using 8 agents in 78 conversations. It looked at picking, asking first, and what happens after Claude Code shortens a long conversation: the team folder's agent file was put back in view (9 of 9), while an installed skill's rules weren't (0 of 9).
+An earlier [behaviour test](evaluation-1.md) compared the team folder with installed skills, using 8 agents in 78 conversations. It looked at picking, asking first, and what happens after Claude Code shortens a long conversation: the team folder's agent file was put back in view (9 of 9), while an installed skill's rules weren't (0 of 9).
 
 ## Run it yourself
 

@@ -1,13 +1,14 @@
 """Evaluation 3's team, made the way people make it: 18 agents with no names (they go by their jobs), restored into the
 app, then Agent home's own "Download the team (.zip)", unzipped to tests/fixtures/team-3. Look-alike pairs test picking.
-Run once, before the experiment; the team is then frozen with the plan (tests/team_eval_3.md).
-    python tests/team_3.py"""
+Run once, before the experiment; the team is then frozen with the plan (tests/team_eval_3.md). A later app makes the same
+team under another name for a check of a fix (team-3b for 1.0.4, team-4b after Evaluation 4).
+    python tests/team_3.py [name]   # default: team-3"""
 import io, json, shutil, sys, zipfile
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 sys.stdout.reconfigure(encoding='utf-8')
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / 'tests' / 'fixtures' / 'team-3'
+OUT = ROOT / 'tests' / 'fixtures' / (sys.argv[1] if len(sys.argv) > 1 else 'team-3')
 TEAM = [('health', 'Nurse agent'), ('health', 'Patient educator'), ('health', 'Clinic receptionist'),
         ('support', 'Support agent'), ('support', 'Booking assistant'),
         ('food', 'Café assistant'), ('food', 'Menu writer'),
