@@ -210,7 +210,7 @@ You are a cheerful support agent. You work in customer care. You mostly talk wit
 
 | Passive (installed skills) | Active (a Helpercraft team folder) |
 |---|---|
-| Skills load when the AI decides they fit. In long sessions, AI tools shorten the conversation, and earlier skills can drop out ([bug report](https://github.com/anthropics/claude-code/issues/13919)). In an early behaviour test, the AI usually started the task without asking (25 of 30), and after the conversation was shortened, the skill wasn't reloaded (0 of 9). | You point the AI at the team. It suggested agents and asked first in 29 of 30 runs, and after the conversation was shortened, Claude Code kept the agent's file in view (9 of 9). [The test](docs/evaluation-1.md) |
+| Skills load when the AI decides they fit. In long sessions, AI tools shorten the conversation, and earlier skills can drop out ([bug report](https://github.com/anthropics/claude-code/issues/74990)). In an early behaviour test, the AI usually started the task without asking (25 of 30), and after the conversation was shortened, the skill wasn't reloaded (0 of 9). | You point the AI at the team. It suggested agents and asked first in 29 of 30 runs, and after the conversation was shortened, Claude Code kept the agent's file in view (9 of 9). [The test](docs/evaluation-1.md) |
 
 </details>
 
